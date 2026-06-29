@@ -1,5 +1,5 @@
 const { pool } = require('../config/db');
-const { extractPrescription, getMedicineInfo } = require('../services/groq.service');
+const { extractPrescription, getMedicineInfo, checkDrugInteractions } = require('../services/groq.service');
 const path = require('path');
 const fs = require('fs');
 
@@ -119,6 +119,35 @@ const getMedicineDetails = async (req, res) => {
 };
 
 /**
+ * POST /api/scan/check-interactions
+ * Check drug interactions for an array of medicines
+ */
+const checkInteractions = async (req, res) => {
+  try {
+    const { medicines } = req.body;
+    if (!medicines || !Array.isArray(medicines) || medicines.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'medicines array is required',
+      });
+    }
+
+    const analysis = await checkDrugInteractions(medicines);
+
+    return res.status(200).json({
+      success: true,
+      data: analysis,
+    });
+  } catch (error) {
+    console.error('Check interactions error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to analyze drug interactions',
+    });
+  }
+};
+
+/**
  * GET /api/scan/:id
  * Get a specific scan by ID
  */
@@ -160,4 +189,5 @@ const getScanById = async (req, res) => {
   }
 };
 
-module.exports = { scanPrescription, getMedicineDetails, getScanById };
+module.exports = { scanPrescription, getMedicineDetails, checkInteractions, getScanById };
+

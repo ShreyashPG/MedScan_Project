@@ -204,4 +204,147 @@ If NO suitable alternatives exist, return an empty array: []`;
   }
 };
 
-module.exports = { extractPrescription, getMedicineInfo, findAlternatives };
+/**
+ * Check drug interactions between multiple medicines
+ * @param {Array} medicines - Array of medicine objects or strings
+ * @returns {Object} Interaction analysis
+ */
+const checkDrugInteractions = async (medicines) => {
+  const medListStr = medicines.map(m => typeof m === 'string' ? m : `${m.name} (${m.dosage || 'dosage unspecified'})`).join(', ');
+  
+  const prompt = `You are a clinical pharmacologist expert. Analyze these medicines for drug-drug interactions: ${medListStr}.
+
+Return ONLY a valid JSON object with this exact structure (no markdown, no explanation):
+{
+  "interactions": [
+    {
+      "drug_a": "Medicine A",
+      "drug_b": "Medicine B",
+      "severity": "critical|moderate|mild",
+      "description": "Clear explanation of the interaction mechanism and risk",
+      "recommendation": "Clinical advice or precaution"
+    }
+  ],
+  "safe_combinations": ["Pair or list of medicines that have no significant interaction"],
+  "overall_risk": "high|moderate|low|none",
+  "summary": "Concise executive summary of safety findings"
+}`;
+
+  const response = await groq.chat.completions.create({
+    model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    messages: [{ role: 'user', content: prompt }],
+    max_tokens: 1500,
+    temperature: 0.1,
+  });
+
+  const content = response.choices[0].message.content;
+  try {
+    const cleaned = content.replace(/```json\n?/gi, '').replace(/```\n?/gi, '').trim();
+    return JSON.parse(cleaned);
+  } catch (e) {
+    return { interactions: [], safe_combinations: [], overall_risk: 'none', summary: 'Could not analyze interactions.' };
+  }
+};
+
+/**
+ * Chat with AI Health Assistant with patient history context
+ * @param {Array} messages - Array of message history objects [{role, content}]
+ * @param {Array} patientContext - Array of recent prescription records
+ * @returns {Object} AI response and follow-up suggestions
+ */
+const chatWithHealthAssistant = async (messages, patientContext = []) => {
+  const contextText = patientContext.length > 0
+    ? patientContext.map(p => `- Doctor: ${p.doctor_name || 'Unknown'}, Diagnosis: ${p.diagnosis || 'None'}, Medicines: ${JSON.stringify(p.medicines_json || p.medicines || [])}`).join('\n')
+    : 'No recent prescription history on file.';
+
+  const systemPrompt = `You are MedScan AI, an empathetic, highly knowledgeable medical AI assistant for patients and doctors.
+Patient's Known Prescription History:
+${contextText}
+
+Instructions:
+1. Provide helpful, accurate medical/pharmaceutical information based on user questions.
+2. If discussing their medications, reference their history if relevant.
+3. Keep responses concise, clear, and easy for patients to understand.
+4. ALWAYS include a brief safety disclaimer when offering advice.
+
+Return ONLY a valid JSON object with this exact structure (no markdown, no explanation):
+{
+  "reply": "Your detailed answer here...",
+  "suggestions": ["Follow-up question prompt 1", "Follow-up question prompt 2", "Follow-up question prompt 3"]
+}`;
+
+  const formattedMessages = [
+    { role: 'system', content: systemPrompt },
+    ...messages.map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }))
+  ];
+
+  const response = await groq.chat.completions.create({
+    model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    messages: formattedMessages,
+    max_tokens: 1500,
+    temperature: 0.3,
+  });
+
+  const content = response.choices[0].message.content;
+  try {
+    const cleaned = content.replace(/```json\n?/gi, '').replace(/```\n?/gi, '').trim();
+    return JSON.parse(cleaned);
+  } catch (e) {
+    return { reply: content, suggestions: ['Can you explain more?', 'What are side effects?'] };
+  }
+};
+
+/**
+ * Generate AI Clinical Summary for a patient record history
+ * @param {Object} patientData - Patient info and records
+ * @returns {Object} Structured clinical summary
+ */
+const generateClinicalSummary = async (patientData) => {
+  const prompt = `You are a senior physician consultant. Generate a comprehensive, professional clinical summary for referral letters and medical records based on the following patient history:
+
+Patient Details: Name: ${patientData.patient_name || 'N/A'}, Phone: ${patientData.patient_phone || 'N/A'}
+Visit Records:
+${JSON.stringify(patientData.records || [], null, 2)}
+
+Return ONLY a valid JSON object with this exact structure (no markdown, no explanation):
+{
+  "patient_overview": "Concise clinical narrative of patient demographic and health state",
+  "diagnosis_history": ["Chronological list of diagnoses"],
+  "medication_timeline": [
+    {
+      "period": "e.g. Jan 2024 - Present",
+      "medications": ["Med 1", "Med 2"],
+      "prescriber": "Doctor name"
+    }
+  ],
+  "current_medications": ["Active current medications list"],
+  "key_observations": ["Clinical insight 1", "Clinical insight 2"],
+  "recommendations": ["Actionable medical recommendation 1", "Recommendation 2"],
+  "summary_text": "Complete multi-paragraph clinical referral summary narrative"
+}`;
+
+  const response = await groq.chat.completions.create({
+    model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    messages: [{ role: 'user', content: prompt }],
+    max_tokens: 2000,
+    temperature: 0.2,
+  });
+
+  const content = response.choices[0].message.content;
+  try {
+    const cleaned = content.replace(/```json\n?/gi, '').replace(/```\n?/gi, '').trim();
+    return JSON.parse(cleaned);
+  } catch (e) {
+    return { patient_overview: 'Summary unavailable', summary_text: content };
+  }
+};
+
+module.exports = {
+  extractPrescription,
+  getMedicineInfo,
+  findAlternatives,
+  checkDrugInteractions,
+  chatWithHealthAssistant,
+  generateClinicalSummary
+};
+

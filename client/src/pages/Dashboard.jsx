@@ -2,41 +2,36 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ScanLine, History, Users, Package, TrendingUp,
-  ClipboardList, ArrowRight, Calendar, Activity
+  ClipboardList, ArrowRight, Calendar, Activity, Sparkles, AlertTriangle, Pill, IndianRupee
 } from 'lucide-react';
+import {
+  AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
+  XAxis, YAxis, Tooltip, ResponsiveContainer, Legend
+} from 'recharts';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 
+const COLORS = ['#0F766E', '#2563EB', '#F59E0B', '#EC4899', '#8B5CF6', '#10B981'];
+
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [stats, setStats] = useState({ total: 0, recent: 0 });
-  const [recentItems, setRecentItems] = useState([]);
+  const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchDashboardData();
+    fetchAnalytics();
   }, [user?.role]);
 
-  const fetchDashboardData = async () => {
+  const fetchAnalytics = async () => {
+    if (!user?.role) return;
     try {
       setLoading(true);
-      if (user?.role === 'patient') {
-        const { data } = await api.get('/patient/history');
-        setStats({ total: data.count, recent: data.data?.slice(0, 3).length || 0 });
-        setRecentItems(data.data?.slice(0, 3) || []);
-      } else if (user?.role === 'doctor') {
-        const { data } = await api.get('/doctor/patients');
-        setStats({ total: data.count, recent: data.data?.slice(0, 3).length || 0 });
-        setRecentItems(data.data?.slice(0, 3) || []);
-      } else if (user?.role === 'chemist') {
-        const { data } = await api.get('/chemist/inventory');
-        setStats({ total: data.count, recent: data.data?.filter(i => i.quantity < 10).length || 0 });
-        setRecentItems(data.data?.slice(0, 3) || []);
-      }
-    } catch {
-      // Stats are optional, don't show error
+      const { data } = await api.get(`/analytics/${user.role}`);
+      setAnalytics(data.data);
+    } catch (err) {
+      console.error('Failed to load analytics', err);
     } finally {
       setLoading(false);
     }
@@ -44,74 +39,28 @@ const Dashboard = () => {
 
   const roleConfig = {
     patient: {
-      greeting: 'Your Health Dashboard',
-      subtitle: 'View your prescription history and scan new prescriptions',
+      subtitle: 'Track your medication history, scan records, and AI health insights',
       color: 'var(--secondary)',
-      actions: [
-        {
-          icon: ScanLine, title: 'Scan Prescription', desc: 'Upload & analyze a prescription image using AI',
-          action: () => navigate('/scan'), color: 'var(--primary)', bg: 'var(--primary-50)',
-        },
-        {
-          icon: History, title: 'View Scan History', desc: 'Browse your past prescriptions by doctor',
-          action: () => navigate('/patient/history'), color: 'var(--secondary)', bg: 'var(--secondary-50)',
-        },
-      ],
-      statsConfig: [
-        { label: 'Total Scans', value: stats.total, icon: ClipboardList, colorClass: 'green' },
-        { label: 'Recent Records', value: stats.recent, icon: TrendingUp, colorClass: 'blue' },
-      ],
     },
     doctor: {
-      greeting: 'Doctor Dashboard',
-      subtitle: 'Manage patient records and track prescription history',
+      subtitle: 'Manage clinical records, patient statistics, and AI summaries',
       color: 'var(--primary)',
-      actions: [
-        {
-          icon: ScanLine, title: 'Scan Prescription', desc: 'Analyze a prescription and save to patient record',
-          action: () => navigate('/scan'), color: 'var(--primary)', bg: 'var(--primary-50)',
-        },
-        {
-          icon: Users, title: 'Patient Records', desc: 'Lookup patients by phone number and view history',
-          action: () => navigate('/doctor/patients'), color: 'var(--secondary)', bg: 'var(--secondary-50)',
-        },
-      ],
-      statsConfig: [
-        { label: 'Total Patients', value: stats.total, icon: Users, colorClass: 'green' },
-        { label: 'Recent Patients', value: stats.recent, icon: Activity, colorClass: 'blue' },
-      ],
     },
     chemist: {
-      greeting: 'Pharmacy Dashboard',
-      subtitle: 'Manage your inventory and check medicine availability',
+      subtitle: 'Monitor stock levels, inventory valuation, and expiring medications',
       color: 'var(--warning)',
-      actions: [
-        {
-          icon: ScanLine, title: 'Scan Prescription', desc: 'Check if prescribed medicines are in stock',
-          action: () => navigate('/scan'), color: 'var(--primary)', bg: 'var(--primary-50)',
-        },
-        {
-          icon: Package, title: 'Manage Inventory', desc: 'Add, update or remove medicines from stock',
-          action: () => navigate('/chemist/inventory'), color: 'var(--warning)', bg: 'var(--warning-50)',
-        },
-      ],
-      statsConfig: [
-        { label: 'Total Items', value: stats.total, icon: Package, colorClass: 'green' },
-        { label: 'Low Stock Items', value: stats.recent, icon: TrendingUp, colorClass: 'red' },
-      ],
     },
   };
 
   const config = roleConfig[user?.role] || roleConfig.patient;
 
   return (
-    <div className="fade-in">
+    <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Welcome Banner */}
       <div style={{
         background: `linear-gradient(135deg, ${config.color} 0%, var(--primary-dark) 100%)`,
         borderRadius: 'var(--radius-xl)',
-        padding: '32px',
-        marginBottom: '28px',
+        padding: '28px 32px',
         color: 'white',
         display: 'flex',
         alignItems: 'center',
@@ -122,147 +71,218 @@ const Dashboard = () => {
         position: 'relative',
         overflow: 'hidden',
       }}>
-        <div style={{
-          position: 'absolute', right: -20, top: -20,
-          width: 160, height: 160, borderRadius: '50%',
-          background: 'rgba(255,255,255,0.06)',
-        }} />
-        <div style={{
-          position: 'absolute', right: 60, bottom: -40,
-          width: 100, height: 100, borderRadius: '50%',
-          background: 'rgba(255,255,255,0.04)',
-        }} />
+        <div style={{ position: 'absolute', right: -20, top: -20, width: 160, height: 160, borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
         <div>
-          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem', marginBottom: 6 }}>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.875rem', marginBottom: 4 }}>
             {new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
-          <h1 style={{ color: 'white', marginBottom: 8, fontSize: '1.75rem' }}>
+          <h1 style={{ color: 'white', marginBottom: 6, fontSize: '1.6rem', fontWeight: 800 }}>
             Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}, {user?.name?.split(' ')[0]}! 👋
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.8)', margin: 0 }}>{config.subtitle}</p>
+          <p style={{ color: 'rgba(255,255,255,0.85)', margin: 0, fontSize: '0.9rem' }}>{config.subtitle}</p>
         </div>
-        <div style={{
-          background: 'rgba(255,255,255,0.15)',
-          borderRadius: 'var(--radius-lg)',
-          padding: '16px 20px',
-          backdropFilter: 'blur(10px)',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-            <Activity size={16} color="rgba(255,255,255,0.8)" />
-            <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', textTransform: 'capitalize' }}>
-              {user?.role} Account
-            </span>
-          </div>
-          <div style={{ fontSize: '0.875rem', color: 'white', fontWeight: 500 }}>{user?.email}</div>
-          <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', marginTop: 2 }}>{user?.phone}</div>
-        </div>
+
+        <button className="btn btn-primary" onClick={() => navigate('/scan')} style={{ background: 'white', color: 'var(--primary)', fontWeight: 700, border: 'none', boxShadow: '0 4px 14px rgba(0,0,0,0.15)' }}>
+          <ScanLine size={18} /> Scan New Prescription
+        </button>
       </div>
 
-      {/* Stats */}
-      <div className="stats-grid">
-        {config.statsConfig.map((stat, idx) => {
-          const Icon = stat.icon;
-          return (
-            <div key={idx} className="stat-card hover-card">
-              <div className={`stat-icon ${stat.colorClass}`}>
-                <Icon size={24} />
-              </div>
-              <div>
-                <div className="stat-value">{loading ? '–' : stat.value}</div>
-                <div className="stat-label">{stat.label}</div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Quick Actions */}
-      <h3 style={{ marginBottom: 16, color: 'var(--text)' }}>Quick Actions</h3>
-      <div className="grid-2" style={{ marginBottom: 28 }}>
-        {config.actions.map((action, idx) => {
-          const Icon = action.icon;
-          return (
-            <div
-              key={idx}
-              className="card hover-card"
-              onClick={action.action}
-              style={{ cursor: 'pointer', padding: 0 }}
-            >
-              <div className="card-body" style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-                <div style={{
-                  width: 56, height: 56, borderRadius: 'var(--radius-md)',
-                  background: action.bg, display: 'flex',
-                  alignItems: 'center', justifyContent: 'center',
-                  color: action.color, flexShrink: 0,
-                }}>
-                  <Icon size={26} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <h4 style={{ marginBottom: 4, color: 'var(--text)' }}>{action.title}</h4>
-                  <p style={{ fontSize: '0.85rem', margin: 0 }}>{action.desc}</p>
-                </div>
-                <ArrowRight size={20} color="var(--text-muted)" />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Recent Items */}
-      {recentItems.length > 0 && (
+      {loading ? (
+        <div className="loading-screen" style={{ height: 300 }}><div className="spinner" /></div>
+      ) : (
         <>
-          <h3 style={{ marginBottom: 16 }}>Recent Activity</h3>
-          <div className="card">
-            {recentItems.map((item, idx) => (
-              <div key={idx} style={{
-                padding: '16px 20px',
-                borderBottom: idx < recentItems.length - 1 ? '1px solid var(--border-light)' : 'none',
-                display: 'flex', alignItems: 'center', gap: 14,
-              }}>
-                <div style={{
-                  width: 40, height: 40, borderRadius: '50%',
-                  background: 'var(--primary-50)', display: 'flex',
-                  alignItems: 'center', justifyContent: 'center', color: 'var(--primary)',
-                }}>
-                  <Calendar size={18} />
+          {/* ================= PATIENT DASHBOARD ================= */}
+          {user?.role === 'patient' && analytics && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {/* Stat Cards */}
+              <div className="grid-3" style={{ gap: 16 }}>
+                <div className="stat-card blue">
+                  <div className="stat-card-header"><span className="stat-card-title">Monthly Scans</span><div className="stat-card-icon"><ClipboardList size={20} /></div></div>
+                  <div className="stat-card-value">{analytics.monthlyScans?.reduce((acc, curr) => acc + parseInt(curr.count), 0) || 0}</div>
+                  <div className="stat-card-desc">Saved in medical record</div>
                 </div>
-                <div style={{ flex: 1 }}>
-                  {user?.role === 'patient' && (
-                    <>
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>
-                        Dr. {item.doctor_name || 'Unknown'}
-                      </div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                        {new Date(item.created_at).toLocaleDateString('en-IN')}
-                        {item.medicines_json?.length > 0 && ` · ${item.medicines_json.length} medicines`}
-                      </div>
-                    </>
-                  )}
-                  {user?.role === 'doctor' && (
-                    <>
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>
-                        {item.patient_name || 'Unknown Patient'}
-                      </div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                        📞 {item.patient_phone} · {item.visit_count} visits
-                      </div>
-                    </>
-                  )}
-                  {user?.role === 'chemist' && (
-                    <>
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{item.medicine_name}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                        Qty: {item.quantity} · ₹{item.price}
-                      </div>
-                    </>
-                  )}
+                <div className="stat-card green">
+                  <div className="stat-card-header"><span className="stat-card-title">Doctors Consulted</span><div className="stat-card-icon"><Users size={20} /></div></div>
+                  <div className="stat-card-value">{analytics.topDoctors?.length || 0}</div>
+                  <div className="stat-card-desc">Unique healthcare providers</div>
                 </div>
-                <span className={`badge ${item.quantity < 10 && user?.role === 'chemist' ? 'badge-danger' : 'badge-success'}`}>
-                  {user?.role === 'chemist' ? (item.quantity < 10 ? 'Low Stock' : 'In Stock') : 'View'}
-                </span>
+                <div className="stat-card yellow">
+                  <div className="stat-card-header"><span className="stat-card-title">Medicines Tracked</span><div className="stat-card-icon"><Pill size={20} /></div></div>
+                  <div className="stat-card-value">{analytics.topMedicines?.length || 0}</div>
+                  <div className="stat-card-desc">Extracted via Groq AI</div>
+                </div>
               </div>
-            ))}
-          </div>
+
+              {/* Charts Grid */}
+              <div className="grid-2" style={{ gap: 20 }}>
+                {/* Area Chart: Scan Activity */}
+                <div className="card">
+                  <div className="card-header"><h4 style={{ margin: 0 }}>📈 Scan Activity Trend</h4></div>
+                  <div className="card-body" style={{ height: 260 }}>
+                    {analytics.monthlyScans?.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={analytics.monthlyScans}>
+                          <defs>
+                            <linearGradient id="colorScans" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#0F766E" stopOpacity={0.8}/>
+                              <stop offset="95%" stopColor="#0F766E" stopOpacity={0}/>
+                            </linearGradient>
+                          </defs>
+                          <XAxis dataKey="month" stroke="var(--text-muted)" fontSize={12} />
+                          <YAxis stroke="var(--text-muted)" fontSize={12} />
+                          <Tooltip />
+                          <Area type="monotone" dataKey="count" stroke="#0F766E" fillOpacity={1} fill="url(#colorScans)" name="Scans" />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    ) : <div className="empty-state">No scan history available</div>}
+                  </div>
+                </div>
+
+                {/* Bar Chart: Top Prescribed Medicines */}
+                <div className="card">
+                  <div className="card-header"><h4 style={{ margin: 0 }}>💊 Top Prescribed Medicines</h4></div>
+                  <div className="card-body" style={{ height: 260 }}>
+                    {analytics.topMedicines?.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={analytics.topMedicines} layout="vertical">
+                          <XAxis type="number" stroke="var(--text-muted)" fontSize={12} />
+                          <YAxis dataKey="name" type="category" stroke="var(--text-muted)" fontSize={11} width={100} />
+                          <Tooltip />
+                          <Bar dataKey="count" fill="#2563EB" radius={[0, 4, 4, 0]} name="Times Prescribed" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    ) : <div className="empty-state">No medicine data yet</div>}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ================= DOCTOR DASHBOARD ================= */}
+          {user?.role === 'doctor' && analytics && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {/* Summary Stats */}
+              <div className="grid-3" style={{ gap: 16 }}>
+                <div className="stat-card green">
+                  <div className="stat-card-header"><span className="stat-card-title">Total Patients</span><div className="stat-card-icon"><Users size={20} /></div></div>
+                  <div className="stat-card-value">{analytics.summary?.totalPatients || 0}</div>
+                  <div className="stat-card-desc">Registered under your profile</div>
+                </div>
+                <div className="stat-card blue">
+                  <div className="stat-card-header"><span className="stat-card-title">Total Consultations</span><div className="stat-card-icon"><Activity size={20} /></div></div>
+                  <div className="stat-card-value">{analytics.summary?.totalVisits || 0}</div>
+                  <div className="stat-card-desc">Recorded visit sessions</div>
+                </div>
+                <div className="stat-card yellow">
+                  <div className="stat-card-header"><span className="stat-card-title">Avg Visits / Patient</span><div className="stat-card-icon"><TrendingUp size={20} /></div></div>
+                  <div className="stat-card-value">{analytics.summary?.avgVisits || 0}</div>
+                  <div className="stat-card-desc">Consultation frequency</div>
+                </div>
+              </div>
+
+              <div className="grid-2" style={{ gap: 20 }}>
+                {/* Line Chart: Visit Trends */}
+                <div className="card">
+                  <div className="card-header"><h4 style={{ margin: 0 }}>📊 Monthly Patient Visits</h4></div>
+                  <div className="card-body" style={{ height: 260 }}>
+                    {analytics.monthlyVisits?.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={analytics.monthlyVisits}>
+                          <XAxis dataKey="month" stroke="var(--text-muted)" fontSize={12} />
+                          <YAxis stroke="var(--text-muted)" fontSize={12} />
+                          <Tooltip />
+                          <Bar dataKey="visits" fill="#0F766E" radius={[4, 4, 0, 0]} name="Visits" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    ) : <div className="empty-state">No visit data available</div>}
+                  </div>
+                </div>
+
+                {/* Pie Chart: Top Diagnoses */}
+                <div className="card">
+                  <div className="card-header"><h4 style={{ margin: 0 }}>🩺 Frequent Diagnoses</h4></div>
+                  <div className="card-body" style={{ height: 260, display: 'flex', alignItems: 'center' }}>
+                    {analytics.topDiagnoses?.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie data={analytics.topDiagnoses} dataKey="count" nameKey="diagnosis" cx="50%" cy="50%" outerRadius={80} label>
+                            {analytics.topDiagnoses.map((_, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                          <Legend />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    ) : <div className="empty-state">No diagnoses logged</div>}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ================= CHEMIST DASHBOARD ================= */}
+          {user?.role === 'chemist' && analytics && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {/* Chemist Stats */}
+              <div className="grid-3" style={{ gap: 16 }}>
+                <div className="stat-card green">
+                  <div className="stat-card-header"><span className="stat-card-title">Total Items in Stock</span><div className="stat-card-icon"><Package size={20} /></div></div>
+                  <div className="stat-card-value">{analytics.summary?.totalItems || 0}</div>
+                  <div className="stat-card-desc">Active inventory SKUs</div>
+                </div>
+                <div className="stat-card red">
+                  <div className="stat-card-header"><span className="stat-card-title">Low Stock Alert</span><div className="stat-card-icon"><AlertTriangle size={20} /></div></div>
+                  <div className="stat-card-value">{analytics.lowStock?.length || 0}</div>
+                  <div className="stat-card-desc">Items below 10 units</div>
+                </div>
+                <div className="stat-card yellow">
+                  <div className="stat-card-header"><span className="stat-card-title">Total Valuation</span><div className="stat-card-icon"><IndianRupee size={20} /></div></div>
+                  <div className="stat-card-value">₹{analytics.summary?.totalValuation || 0}</div>
+                  <div className="stat-card-desc">Estimated inventory value</div>
+                </div>
+              </div>
+
+              <div className="grid-2" style={{ gap: 20 }}>
+                {/* Category Breakdown */}
+                <div className="card">
+                  <div className="card-header"><h4 style={{ margin: 0 }}>📦 Inventory Category Share</h4></div>
+                  <div className="card-body" style={{ height: 260, display: 'flex', alignItems: 'center' }}>
+                    {analytics.categoryBreakdown?.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie data={analytics.categoryBreakdown} dataKey="count" nameKey="category" cx="50%" cy="50%" innerRadius={50} outerRadius={80} label>
+                            {analytics.categoryBreakdown.map((_, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                          <Legend />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    ) : <div className="empty-state">No inventory categories</div>}
+                  </div>
+                </div>
+
+                {/* Low Stock Bar */}
+                <div className="card">
+                  <div className="card-header"><h4 style={{ margin: 0 }}>⚠️ Critical Stock Levels (&lt;10 Units)</h4></div>
+                  <div className="card-body" style={{ height: 260 }}>
+                    {analytics.lowStock?.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={analytics.lowStock}>
+                          <XAxis dataKey="medicine_name" stroke="var(--text-muted)" fontSize={11} />
+                          <YAxis stroke="var(--text-muted)" fontSize={12} />
+                          <Tooltip />
+                          <Bar dataKey="quantity" fill="#DC2626" radius={[4, 4, 0, 0]} name="Units Remaining" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    ) : <div className="empty-state">All items well stocked</div>}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

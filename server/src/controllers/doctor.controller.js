@@ -240,10 +240,66 @@ const deletePatientRecord = async (req, res) => {
   }
 };
 
+/**
+ * POST /api/doctor/patient/:phone/summary
+ * Generate AI Clinical Summary for a patient
+ */
+const generateSummary = async (req, res) => {
+  try {
+    const doctorId = req.user.id;
+    const { phone } = req.params;
+
+    const result = await pool.query(
+      `SELECT pr.*, p.medicines_json, p.doctor_name as prescription_doctor
+       FROM patient_records pr
+       LEFT JOIN prescriptions p ON pr.prescription_id = p.id
+       WHERE pr.doctor_id = $1 AND pr.patient_phone = $2
+       ORDER BY pr.visit_date DESC`,
+      [doctorId, phone]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No patient records found for this phone number',
+      });
+    }
+
+    const patientName = result.rows[0].patient_name || 'Patient';
+    const patientData = {
+      patient_name: patientName,
+      patient_phone: phone,
+      records: result.rows.map(r => ({
+        visit_date: r.visit_date,
+        diagnosis: r.diagnosis,
+        notes: r.notes,
+        medicines: typeof r.medicines_json === 'string' ? JSON.parse(r.medicines_json) : r.medicines_json,
+        doctor_name: r.prescription_doctor || req.user.name,
+      })),
+    };
+
+    const { generateClinicalSummary } = require('../services/groq.service');
+    const summary = await generateClinicalSummary(patientData);
+
+    return res.status(200).json({
+      success: true,
+      data: summary,
+    });
+  } catch (error) {
+    console.error('Generate summary error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to generate clinical summary',
+    });
+  }
+};
+
 module.exports = {
   getPatients,
   getPatientHistory,
   addPatientRecord,
   updatePatientRecord,
   deletePatientRecord,
+  generateSummary,
 };
+

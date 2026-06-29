@@ -14,6 +14,9 @@ const doctorRoutes = require('./routes/doctor.routes');
 const chemistRoutes = require('./routes/chemist.routes');
 const pdfRoutes = require('./routes/pdf.routes');
 const samplesRoutes = require('./routes/samples.routes');
+const chatRoutes = require('./routes/chat.routes');
+const analyticsRoutes = require('./routes/analytics.routes');
+const shareRoutes = require('./routes/share.routes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -55,6 +58,12 @@ app.use('/api/doctor', doctorRoutes);
 app.use('/api/chemist', chemistRoutes);
 app.use('/api/pdf', pdfRoutes);
 app.use('/api/samples', samplesRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/share', shareRoutes);
+app.use('/shared', shareRoutes);
+
+
 
 // 404 handler
 app.use('*', (req, res) => {

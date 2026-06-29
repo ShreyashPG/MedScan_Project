@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Menu, Bell, X } from 'lucide-react';
 import Sidebar from './Sidebar';
+import ChatWidget from './ChatWidget';
 import { useAuth } from '../context/AuthContext';
+
 
 const pageTitles = {
   '/dashboard': 'Dashboard',
@@ -95,8 +97,12 @@ const Layout = () => {
           <Outlet />
         </main>
       </div>
+
+      {/* Floating AI Health Assistant Chatbot */}
+      <ChatWidget />
     </div>
   );
 };
 
 export default Layout;
+

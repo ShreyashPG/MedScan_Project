@@ -531,8 +531,95 @@ const generateInventoryPDF = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/pdf/clinical-summary/:phone
+ * Generate PDF of AI Clinical Summary
+ */
+const generateClinicalSummaryPDF = async (req, res) => {
+  try {
+    const doctorId = req.user.id;
+    const { phone } = req.params;
+
+    const result = await pool.query(
+      `SELECT pr.*, p.medicines_json, p.doctor_name as prescription_doctor
+       FROM patient_records pr
+       LEFT JOIN prescriptions p ON pr.prescription_id = p.id
+       WHERE pr.doctor_id = $1 AND pr.patient_phone = $2
+       ORDER BY pr.visit_date DESC`,
+      [doctorId, phone]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'No patient records found' });
+    }
+
+    const patientName = result.rows[0].patient_name || 'Patient';
+    const patientData = {
+      patient_name: patientName,
+      patient_phone: phone,
+      records: result.rows.map(r => ({
+        visit_date: r.visit_date,
+        diagnosis: r.diagnosis,
+        notes: r.notes,
+        medicines: typeof r.medicines_json === 'string' ? JSON.parse(r.medicines_json) : r.medicines_json,
+        doctor_name: r.prescription_doctor || req.user.name,
+      })),
+    };
+
+    const { generateClinicalSummary } = require('../services/groq.service');
+    const summary = await generateClinicalSummary(patientData);
+
+    const doc = new PDFDocument({ margin: 40, size: 'A4', bufferPages: true });
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=clinical_summary_${phone}.pdf`);
+    doc.pipe(res);
+
+    attachFooterToAllPages(doc);
+    drawHeader(doc, 'AI Clinical Referral Summary', req.user.name);
+
+    doc.fontSize(16).fillColor(COLORS.primary).font('Helvetica-Bold').text(`Patient: ${patientName} (${phone})`);
+    doc.moveDown(0.5);
+
+    if (summary.patient_overview) {
+      doc.fontSize(12).fillColor(COLORS.text).font('Helvetica-Bold').text('Clinical Overview');
+      doc.fontSize(10).font('Helvetica').fillColor(COLORS.dark).text(summary.patient_overview);
+      doc.moveDown(1);
+    }
+
+    if (summary.summary_text) {
+      doc.fontSize(12).fillColor(COLORS.primary).font('Helvetica-Bold').text('Referral Summary Narrative');
+      doc.fontSize(10).font('Helvetica').fillColor(COLORS.dark).text(summary.summary_text);
+      doc.moveDown(1);
+    }
+
+    if (summary.key_observations && summary.key_observations.length > 0) {
+      doc.fontSize(12).fillColor(COLORS.primary).font('Helvetica-Bold').text('Key Observations');
+      summary.key_observations.forEach(obs => {
+        doc.fontSize(10).font('Helvetica').fillColor(COLORS.dark).text(`• ${obs}`);
+      });
+      doc.moveDown(1);
+    }
+
+    if (summary.recommendations && summary.recommendations.length > 0) {
+      doc.fontSize(12).fillColor(COLORS.primary).font('Helvetica-Bold').text('Recommendations');
+      summary.recommendations.forEach(rec => {
+        doc.fontSize(10).font('Helvetica').fillColor(COLORS.dark).text(`• ${rec}`);
+      });
+    }
+
+    drawFooter(doc);
+    doc.end();
+  } catch (error) {
+    console.error('Generate summary PDF error:', error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: 'Failed to generate PDF' });
+    }
+  }
+};
+
 module.exports = {
   generatePatientHistoryPDF,
   generateDoctorPatientPDF,
   generateInventoryPDF,
+  generateClinicalSummaryPDF,
 };

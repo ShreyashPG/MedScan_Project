@@ -72,6 +72,18 @@ CREATE TABLE IF NOT EXISTS inventory (
     UNIQUE(chemist_id, medicine_name)
 );
 
+-- Share tokens for QR prescription sharing
+CREATE TABLE IF NOT EXISTS share_tokens (
+    id               SERIAL PRIMARY KEY,
+    token            VARCHAR(64) UNIQUE NOT NULL,
+    prescription_id  INTEGER REFERENCES prescriptions(id) ON DELETE CASCADE,
+    created_by       INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    expires_at       TIMESTAMP,
+    view_count       INTEGER DEFAULT 0,
+    is_active        BOOLEAN DEFAULT TRUE,
+    created_at       TIMESTAMP DEFAULT NOW()
+);
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_prescriptions_scanned_by ON prescriptions(scanned_by);
 CREATE INDEX IF NOT EXISTS idx_prescriptions_patient_phone ON prescriptions(patient_phone);
@@ -80,3 +92,5 @@ CREATE INDEX IF NOT EXISTS idx_scan_history_doctor_name ON scan_history(doctor_n
 CREATE INDEX IF NOT EXISTS idx_patient_records_doctor_id ON patient_records(doctor_id);
 CREATE INDEX IF NOT EXISTS idx_patient_records_patient_phone ON patient_records(patient_phone);
 CREATE INDEX IF NOT EXISTS idx_inventory_chemist_id ON inventory(chemist_id);
+CREATE INDEX IF NOT EXISTS idx_share_tokens_token ON share_tokens(token);
+

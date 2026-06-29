@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ScanPage from './pages/ScanPage';
+import SharedPrescription from './pages/SharedPrescription';
 
 // Patient pages
 import ScanHistory from './pages/patient/ScanHistory';
@@ -50,7 +51,9 @@ function App() {
           {/* Public */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/shared/:token" element={<SharedPrescription />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
 
           {/* Protected — All roles */}
           <Route

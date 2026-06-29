@@ -5,11 +5,115 @@ import {
   Upload, ScanLine, X, AlertCircle, CheckCircle2,
   Info, Loader2, Save, FlaskConical, ChevronDown, ChevronUp,
   Phone, FileText, BookImage, Search, ChevronLeft, ChevronRight,
-  Sparkles, Database
+  Sparkles, Database, QrCode, ShieldAlert, AlertTriangle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import QRShareModal from '../components/QRShareModal';
+
+/* ============================================================
+   DRUG INTERACTION MODAL
+   ============================================================ */
+const DrugInteractionModal = ({ data, onClose }) => {
+  if (!data) return null;
+  const riskColor = data.overall_risk === 'high' ? 'var(--danger)' : data.overall_risk === 'moderate' ? 'var(--warning)' : 'var(--success)';
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" style={{ maxWidth: 620 }} onClick={e => e.stopPropagation()}>
+        <div className="modal-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ background: 'var(--danger-50)', color: 'var(--danger)', padding: 8, borderRadius: 'var(--radius-md)' }}>
+              <ShieldAlert size={22} />
+            </div>
+            <div>
+              <h3 style={{ margin: 0, color: 'var(--text)' }}>Drug Interaction Analysis</h3>
+              <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-muted)' }}>AI Safety Assessment</p>
+            </div>
+          </div>
+          <button className="btn btn-ghost btn-icon" onClick={onClose}><X size={20} /></button>
+        </div>
+        <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {/* Risk Level Banner */}
+          <div style={{
+            background: 'var(--surface-2)',
+            padding: 14,
+            borderRadius: 'var(--radius-md)',
+            borderLeft: `4px solid ${riskColor}`,
+            display: 'flex',
+            justify: 'space-between',
+            alignItems: 'center',
+          }}>
+            <div>
+              <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Overall Risk Level</span>
+              <h4 style={{ margin: 0, color: riskColor, textTransform: 'capitalize', fontSize: '1.1rem' }}>{data.overall_risk} Risk</h4>
+            </div>
+            <span className={`badge ${data.overall_risk === 'high' ? 'badge-danger' : data.overall_risk === 'moderate' ? 'badge-warning' : 'badge-success'}`}>
+              {data.interactions?.length || 0} Interactions Found
+            </span>
+          </div>
+
+          {data.summary && (
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: 0, background: 'var(--surface-1)', padding: 12, borderRadius: 'var(--radius-md)' }}>
+              <strong>Summary: </strong>{data.summary}
+            </p>
+          )}
+
+          {/* Interactions List */}
+          {data.interactions && data.interactions.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <h5 style={{ margin: 0, color: 'var(--text)' }}>Detected Interactions</h5>
+              {data.interactions.map((item, idx) => (
+                <div key={idx} style={{
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: 14,
+                  background: item.severity === 'critical' ? 'var(--danger-50)' : 'var(--white)',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                    <strong style={{ fontSize: '0.95rem', color: 'var(--text)' }}>
+                      💊 {item.drug_a} + {item.drug_b}
+                    </strong>
+                    <span className={`badge ${item.severity === 'critical' ? 'badge-danger' : item.severity === 'moderate' ? 'badge-warning' : 'badge-secondary'}`} style={{ textTransform: 'capitalize' }}>
+                      {item.severity}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', margin: '0 0 6px' }}>{item.description}</p>
+                  {item.recommendation && (
+                    <div style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      💡 Recommendation: {item.recommendation}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="alert alert-success">
+              <CheckCircle2 size={18} />
+              <div>No known severe drug-drug interactions detected among these medicines.</div>
+            </div>
+          )}
+
+          {data.safe_combinations && data.safe_combinations.length > 0 && (
+            <div>
+              <h5 style={{ margin: '0 0 6px', color: 'var(--success)' }}>✅ Safe Combinations</h5>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {data.safe_combinations.map((c, i) => (
+                  <span key={i} className="badge badge-success">{c}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-primary" onClick={onClose}>Close Assessment</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 /* ============================================================
    MEDICINE INFO MODAL
@@ -546,6 +650,28 @@ const ScanPage = () => {
   const [checkingAvailability, setCheckingAvailability] = useState(false);
   const [availability, setAvailability] = useState(null);
 
+  // New Feature States
+  const [checkingInteractions, setCheckingInteractions] = useState(false);
+  const [interactionData, setInteractionData] = useState(null);
+  const [showInteractionModal, setShowInteractionModal] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
+
+  const handleCheckInteractions = async () => {
+    if (!result?.medicines?.length) return;
+    setCheckingInteractions(true);
+    try {
+      const { data } = await api.post('/scan/check-interactions', { medicines: result.medicines });
+      setInteractionData(data.data);
+      setShowInteractionModal(true);
+      toast.success('Interaction assessment complete');
+    } catch (err) {
+      toast.error('Failed to check interactions');
+    } finally {
+      setCheckingInteractions(false);
+    }
+  };
+
+
   // Tabs: 'upload' | 'samples'
   const [activeTab, setActiveTab] = useState('upload');
 
@@ -791,6 +917,22 @@ const ScanPage = () => {
                     Check Stock Availability
                   </button>
                 )}
+
+                {/* Drug Interaction Button (for all roles if >=2 meds) */}
+                {result.medicines?.length >= 2 && (
+                  <button className="btn btn-warning" onClick={handleCheckInteractions} disabled={checkingInteractions} style={{ background: '#F59E0B', color: 'white', border: 'none' }}>
+                    {checkingInteractions ? <Loader2 size={16} style={{ animation: 'spin 0.8s linear infinite' }} /> : <ShieldAlert size={16} />}
+                    Check Drug Interactions
+                  </button>
+                )}
+
+                {/* QR Share Button */}
+                {result.prescription_id && (
+                  <button className="btn btn-outline" onClick={() => setShowQRModal(true)} style={{ borderColor: 'var(--primary)', color: 'var(--primary)' }}>
+                    <QrCode size={16} /> Share via QR Code
+                  </button>
+                )}
+
                 <button className="btn btn-ghost btn-sm" onClick={resetScan}>
                   <X size={14} /> Scan Another
                 </button>
@@ -841,9 +983,20 @@ const ScanPage = () => {
         />
       )}
 
+      {/* Drug Interaction Modal */}
+      {showInteractionModal && (
+        <DrugInteractionModal data={interactionData} onClose={() => setShowInteractionModal(false)} />
+      )}
+
+      {/* QR Share Modal */}
+      {showQRModal && result?.prescription_id && (
+        <QRShareModal prescriptionId={result.prescription_id} onClose={() => setShowQRModal(false)} />
+      )}
+
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 };
+
 
 export default ScanPage;

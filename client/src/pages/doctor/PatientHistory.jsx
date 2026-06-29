@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, Calendar, Download, Plus, Trash2, Loader2,
-  ChevronDown, ChevronUp, Phone, X, Save
+  ChevronDown, ChevronUp, Phone, X, Save, Sparkles, FileText
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../api/axios';
@@ -73,6 +73,11 @@ const PatientHistory = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
 
+  // AI Summary State
+  const [summaryLoading, setSummaryLoading] = useState(false);
+  const [summaryData, setSummaryData] = useState(null);
+  const [downloadingSummaryPdf, setDownloadingSummaryPdf] = useState(false);
+
   useEffect(() => {
     fetchHistory();
   }, [phone]);
@@ -87,6 +92,42 @@ const PatientHistory = () => {
       toast.error('Failed to load patient history');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGenerateSummary = async () => {
+    setSummaryLoading(true);
+    try {
+      const { data } = await api.post(`/doctor/patient/${phone}/summary`);
+      setSummaryData(data.data);
+      toast.success('AI Clinical Summary generated!');
+    } catch (err) {
+      toast.error('Failed to generate summary');
+    } finally {
+      setSummaryLoading(false);
+    }
+  };
+
+  const handleDownloadSummaryPdf = async () => {
+    setDownloadingSummaryPdf(true);
+    try {
+      const token = localStorage.getItem('medscan_token');
+      const response = await fetch(`http://localhost:5000/api/pdf/clinical-summary/${phone}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) throw new Error('Failed');
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `clinical_summary_${phone}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success('Summary PDF downloaded!');
+    } catch {
+      toast.error('Failed to download Summary PDF');
+    } finally {
+      setDownloadingSummaryPdf(false);
     }
   };
 
@@ -143,7 +184,11 @@ const PatientHistory = () => {
             </p>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 10 }}>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <button className="btn btn-warning" onClick={handleGenerateSummary} disabled={summaryLoading || records.length === 0} style={{ background: 'linear-gradient(135deg, #F59E0B, #D97706)', color: 'white', border: 'none' }}>
+            {summaryLoading ? <Loader2 size={16} style={{ animation: 'spin 0.8s linear infinite' }} /> : <Sparkles size={16} />}
+            AI Clinical Summary
+          </button>
           <button className="btn btn-secondary" onClick={handleDownloadPdf} disabled={downloadingPdf || records.length === 0}>
             {downloadingPdf ? <Loader2 size={16} style={{ animation: 'spin 0.8s linear infinite' }} /> : <Download size={16} />}
             PDF Report
@@ -153,6 +198,53 @@ const PatientHistory = () => {
           </button>
         </div>
       </div>
+
+      {/* AI Summary Display Box */}
+      {summaryData && (
+        <div className="card" style={{ marginBottom: 24, border: '2px solid var(--primary-200)', background: 'var(--white)' }}>
+          <div className="card-header" style={{ background: 'linear-gradient(135deg, var(--primary-50), var(--secondary-50))', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--primary)', fontWeight: 700 }}>
+              <Sparkles size={18} /> AI Clinical Referral Summary
+            </div>
+            <button className="btn btn-primary btn-sm" onClick={handleDownloadSummaryPdf} disabled={downloadingSummaryPdf}>
+              {downloadingSummaryPdf ? <Loader2 size={14} style={{ animation: 'spin 0.8s linear infinite' }} /> : <Download size={14} />} Download Summary PDF
+            </button>
+          </div>
+          <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {summaryData.patient_overview && (
+              <div>
+                <strong style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>CLINICAL OVERVIEW</strong>
+                <p style={{ margin: '4px 0 0', fontSize: '0.95rem', color: 'var(--text)', lineHeight: 1.5 }}>{summaryData.patient_overview}</p>
+              </div>
+            )}
+            {summaryData.summary_text && (
+              <div>
+                <strong style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>REFERRAL NARRATIVE</strong>
+                <p style={{ margin: '4px 0 0', fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.5, whiteSpace: 'pre-line' }}>{summaryData.summary_text}</p>
+              </div>
+            )}
+            <div className="grid-2" style={{ gap: 14 }}>
+              {summaryData.key_observations?.length > 0 && (
+                <div style={{ background: 'var(--surface-2)', padding: 12, borderRadius: 'var(--radius-md)' }}>
+                  <strong style={{ fontSize: '0.85rem', color: 'var(--primary)' }}>Key Observations</strong>
+                  <ul style={{ margin: '6px 0 0', paddingLeft: 16, fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                    {summaryData.key_observations.map((obs, i) => <li key={i}>{obs}</li>)}
+                  </ul>
+                </div>
+              )}
+              {summaryData.recommendations?.length > 0 && (
+                <div style={{ background: 'var(--surface-2)', padding: 12, borderRadius: 'var(--radius-md)' }}>
+                  <strong style={{ fontSize: '0.85rem', color: 'var(--secondary)' }}>Recommendations</strong>
+                  <ul style={{ margin: '6px 0 0', paddingLeft: 16, fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                    {summaryData.recommendations.map((rec, i) => <li key={i}>{rec}</li>)}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
 
       {/* Summary card */}
       <div className="card" style={{ marginBottom: 24, background: 'linear-gradient(135deg, var(--primary-50), var(--secondary-50))' }}>
