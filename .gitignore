@@ -1,0 +1,7 @@
+# Environment files
+server/.env
+server/.env.*
+!server/.env.example
+.env
+.env.*
+!.env.example
