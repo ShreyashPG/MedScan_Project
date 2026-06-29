@@ -1,0 +1,11 @@
+{
+  "id": 31,
+  "filename": "prescription_0031.png",
+  "original_filename": "prescription_00038.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Wei Li patient_age: 34 date: 2024-12-16 medications: - Omeprazole 10 mg - Every 8 hours - Hydrochlorothiazide 500 mg - Take twice daily signature: Dr. A. Smith </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Wei Li patient_age: 34 date: 2024-12-16 medications: - Omeprazole 10 mg - Every 8 hours - Hydrochlorothiazide 500 mg - Take twice daily signature: Dr. A. Smith </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00038.png"
+}

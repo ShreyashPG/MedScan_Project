@@ -1,0 +1,11 @@
+{
+  "id": 15,
+  "filename": "prescription_0015.png",
+  "original_filename": "prescription_00018.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: John Doe patient_age: 60 date: 2024-12-16 medications: - Simvastatin 20 mg - Every 12 hours - Losartan 500 mg - Take once daily signature: Dr. F. Gomez </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: John Doe patient_age: 60 date: 2024-12-16 medications: - Simvastatin 20 mg - Every 12 hours - Losartan 500 mg - Take once daily signature: Dr. F. Gomez </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00018.png"
+}

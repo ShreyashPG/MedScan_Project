@@ -1,0 +1,11 @@
+{
+  "id": 16,
+  "filename": "prescription_0016.png",
+  "original_filename": "prescription_00019.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 45 Oak Ave. patient_name: Jane Smith patient_age: 37 date: 2024-12-16 medications: - Gabapentin 10 mg - Every 8 hours - Acetaminophen 500 mg - Take once daily signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 45 Oak Ave. patient_name: Jane Smith patient_age: 37 date: 2024-12-16 medications: - Gabapentin 10 mg - Every 8 hours - Acetaminophen 500 mg - Take once daily signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00019.png"
+}

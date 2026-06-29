@@ -1,0 +1,11 @@
+{
+  "id": 20,
+  "filename": "prescription_0020.png",
+  "original_filename": "prescription_00023.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 31 date: 2024-12-16 medications: - Atorvastatin 500 mg - Every 12 hours - Amlodipine 20 mg - After meals - Gabapentin 10 mg - Before meals - Lisinopril 20 mg - Every 8 hours signature: Dr. C. Rossi </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 31 date: 2024-12-16 medications: - Atorvastatin 500 mg - Every 12 hours - Amlodipine 20 mg - After meals - Gabapentin 10 mg - Before meals - Lisinopril 20 mg - Every 8 hours signature: Dr. C. Rossi </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00023.png"
+}

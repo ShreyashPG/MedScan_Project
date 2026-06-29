@@ -1,0 +1,11 @@
+{
+  "id": 27,
+  "filename": "prescription_0027.png",
+  "original_filename": "prescription_00034.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: City Health Clinic clinic_address: 678 Orchard Ln. patient_name: Aisha Khan patient_age: 61 date: 2024-12-16 medications: - Amlodipine 20 mg - Every 12 hours signature: Dr. C. Rossi </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: City Health Clinic clinic_address: 678 Orchard Ln. patient_name: Aisha Khan patient_age: 61 date: 2024-12-16 medications: - Amlodipine 20 mg - Every 12 hours signature: Dr. C. Rossi </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00034.png"
+}

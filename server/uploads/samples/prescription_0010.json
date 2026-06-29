@@ -1,0 +1,11 @@
+{
+  "id": 10,
+  "filename": "prescription_0010.png",
+  "original_filename": "prescription_00013.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 45 date: 2024-12-16 medications: - Simvastatin 25 mg - As needed for pain - Metformin 5 mg - At bedtime - Gabapentin 25 mg - Take once daily signature: Dr. F. Gomez </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 45 date: 2024-12-16 medications: - Simvastatin 25 mg - As needed for pain - Metformin 5 mg - At bedtime - Gabapentin 25 mg - Take once daily signature: Dr. F. Gomez </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00013.png"
+}

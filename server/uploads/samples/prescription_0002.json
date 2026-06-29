@@ -1,0 +1,11 @@
+{
+  "id": 2,
+  "filename": "prescription_0002.png",
+  "original_filename": "prescription_00002.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 234 Maple Blvd. patient_name: Aisha Khan patient_age: 65 date: 2024-12-16 medications: - Prednisone 500 mg - Every 12 hours - Ciprofloxacin 5 mg - As directed - Simvastatin 10 mg - Every 12 hours - Omeprazole 20 mg - Take twice daily signature: Dr. F. Gomez </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 234 Maple Blvd. patient_name: Aisha Khan patient_age: 65 date: 2024-12-16 medications: - Prednisone 500 mg - Every 12 hours - Ciprofloxacin 5 mg - As directed - Simvastatin 10 mg - Every 12 hours - Omeprazole 20 mg - Take twice daily signature: Dr. F. Gomez </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00002.png"
+}

@@ -1,0 +1,11 @@
+{
+  "id": 25,
+  "filename": "prescription_0025.png",
+  "original_filename": "prescription_00031.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Riverside Clinic clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 45 date: 2024-12-16 medications: - Acetaminophen 50 mg - As needed for pain - Amoxicillin 25 mg - Take once daily signature: Dr. R. Patel </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Riverside Clinic clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 45 date: 2024-12-16 medications: - Acetaminophen 50 mg - As needed for pain - Amoxicillin 25 mg - Take once daily signature: Dr. R. Patel </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00031.png"
+}

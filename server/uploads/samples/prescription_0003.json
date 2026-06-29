@@ -1,0 +1,11 @@
+{
+  "id": 3,
+  "filename": "prescription_0003.png",
+  "original_filename": "prescription_00004.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 234 Maple Blvd. patient_name: Hiro Tanaka patient_age: 42 date: 2024-12-16 medications: - Amlodipine 25 mg - With food - Amoxicillin 5 mg - Before meals - Lisinopril 10 mg - Every 12 hours signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 234 Maple Blvd. patient_name: Hiro Tanaka patient_age: 42 date: 2024-12-16 medications: - Amlodipine 25 mg - With food - Amoxicillin 5 mg - Before meals - Lisinopril 10 mg - Every 12 hours signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00004.png"
+}

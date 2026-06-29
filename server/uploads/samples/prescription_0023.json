@@ -1,0 +1,11 @@
+{
+  "id": 23,
+  "filename": "prescription_0023.png",
+  "original_filename": "prescription_00028.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 71 date: 2024-12-16 medications: - Amlodipine 100 mg - With food - Hydrochlorothiazide 5 mg - As needed for pain - Lisinopril 50 mg - Take once daily signature: Dr. F. Gomez </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 71 date: 2024-12-16 medications: - Amlodipine 100 mg - With food - Hydrochlorothiazide 5 mg - As needed for pain - Lisinopril 50 mg - Take once daily signature: Dr. F. Gomez </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00028.png"
+}

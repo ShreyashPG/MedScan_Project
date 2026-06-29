@@ -1,0 +1,11 @@
+{
+  "id": 29,
+  "filename": "prescription_0029.png",
+  "original_filename": "prescription_00036.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: City Health Clinic clinic_address: 789 Pine Rd. patient_name: Maria Garcia patient_age: 61 date: 2024-12-16 medications: - Gabapentin 250 mg - Every 12 hours - Losartan 100 mg - Before meals - Hydrochlorothiazide 50 mg - As directed signature: Dr. C. Rossi </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: City Health Clinic clinic_address: 789 Pine Rd. patient_name: Maria Garcia patient_age: 61 date: 2024-12-16 medications: - Gabapentin 250 mg - Every 12 hours - Losartan 100 mg - Before meals - Hydrochlorothiazide 50 mg - As directed signature: Dr. C. Rossi </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00036.png"
+}

@@ -1,0 +1,11 @@
+{
+  "id": 37,
+  "filename": "prescription_0037.png",
+  "original_filename": "prescription_00045.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: City Health Clinic clinic_address: 234 Maple Blvd. patient_name: Wei Li patient_age: 24 date: 2024-12-16 medications: - Metformin 10 mg - With food - Ibuprofen 20 mg - After meals - Atorvastatin 50 mg - At bedtime signature: Dr. H. Johnson </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: City Health Clinic clinic_address: 234 Maple Blvd. patient_name: Wei Li patient_age: 24 date: 2024-12-16 medications: - Metformin 10 mg - With food - Ibuprofen 20 mg - After meals - Atorvastatin 50 mg - At bedtime signature: Dr. H. Johnson </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00045.png"
+}

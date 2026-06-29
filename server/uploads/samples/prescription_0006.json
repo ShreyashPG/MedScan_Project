@@ -1,0 +1,11 @@
+{
+  "id": 6,
+  "filename": "prescription_0006.png",
+  "original_filename": "prescription_00008.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Riverside Clinic clinic_address: 123 Main St. patient_name: Michael Brown patient_age: 54 date: 2024-12-16 medications: - Hydrochlorothiazide 250 mg - Every 12 hours - Acetaminophen 5 mg - Before meals - Amoxicillin 500 mg - Every 8 hours signature: Dr. H. Johnson </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Riverside Clinic clinic_address: 123 Main St. patient_name: Michael Brown patient_age: 54 date: 2024-12-16 medications: - Hydrochlorothiazide 250 mg - Every 12 hours - Acetaminophen 5 mg - Before meals - Amoxicillin 500 mg - Every 8 hours signature: Dr. H. Johnson </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00008.png"
+}

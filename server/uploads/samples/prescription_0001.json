@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "filename": "prescription_0001.png",
+  "original_filename": "prescription_00001.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Meadowview Health clinic_address: 123 Main St. patient_name: Carlos Chavez patient_age: 36 date: 2024-12-16 medications: - Gabapentin 500 mg - Before meals - Prednisone 50 mg - At bedtime - Acetaminophen 100 mg - At bedtime signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Meadowview Health clinic_address: 123 Main St. patient_name: Carlos Chavez patient_age: 36 date: 2024-12-16 medications: - Gabapentin 500 mg - Before meals - Prednisone 50 mg - At bedtime - Acetaminophen 100 mg - At bedtime signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00001.png"
+}

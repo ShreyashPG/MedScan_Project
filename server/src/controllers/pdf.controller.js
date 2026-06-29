@@ -1,0 +1,538 @@
+const PDFDocument = require('pdfkit');
+const { pool } = require('../config/db');
+
+// Color scheme
+const COLORS = {
+  primary: '#0F766E',
+  secondary: '#2563EB',
+  danger: '#DC2626',
+  text: '#1E293B',
+  muted: '#64748B',
+  light: '#F0FDF4',
+  white: '#FFFFFF',
+  border: '#E2E8F0',
+};
+
+const FOOTER_HEIGHT = 40;
+const PAGE_MARGIN = 40;
+
+/**
+ * Draw a colored header section
+ */
+const drawHeader = (doc, title, subtitle) => {
+  doc.rect(0, 0, doc.page.width, 80).fill(COLORS.primary);
+  doc
+    .fillColor(COLORS.white)
+    .fontSize(22)
+    .font('Helvetica-Bold')
+    .text('MedScan', 40, 20);
+  doc
+    .fontSize(11)
+    .font('Helvetica')
+    .text('Healthcare Prescription System', 40, 46);
+
+  doc.fillColor(COLORS.white).fontSize(14).font('Helvetica-Bold').text(title, 300, 20, {
+    width: 260,
+    align: 'right',
+  });
+
+  if (subtitle) {
+    doc.fontSize(9).font('Helvetica').text(subtitle, 300, 40, {
+      width: 260,
+      align: 'right',
+    });
+  }
+
+  // FIX: explicitly set y instead of relying on moveDown() compounding
+  // with whatever font/lineGap was active last.
+  doc.x = PAGE_MARGIN;
+  doc.y = 96;
+};
+
+/**
+ * Draw a section title. Returns nothing, but always leaves doc.y at a
+ * known, fixed offset below the bar so callers don't need to guess.
+ */
+const drawSectionTitle = (doc, title) => {
+  ensureSpace(doc, 30);
+  const barY = doc.y;
+  doc
+    .rect(40, barY, doc.page.width - 80, 24)
+    .fillAndStroke(COLORS.primary, COLORS.primary);
+  doc
+    .fillColor(COLORS.white)
+    .fontSize(11)
+    .font('Helvetica-Bold')
+    .text(title, 50, barY + 6, { lineBreak: false });
+  doc.fillColor(COLORS.text);
+  // FIX: fixed offset instead of moveDown() (which depends on current font size)
+  doc.x = PAGE_MARGIN;
+  doc.y = barY + 24 + 10;
+};
+
+/**
+ * FIX: centralized page-break check used everywhere, including inside
+ * inner loops (medicines, inventory rows) — not just between records.
+ * Pass the height of the content block you're about to draw.
+ */
+const ensureSpace = (doc, neededHeight) => {
+  const limit = doc.page.height - FOOTER_HEIGHT - 10;
+  if (doc.y + neededHeight > limit) {
+    doc.addPage();
+    doc.x = PAGE_MARGIN;
+    doc.y = PAGE_MARGIN;
+    return true;
+  }
+  return false;
+};
+
+/**
+ * FIX: a labeled line helper that doesn't depend on `continued: true`
+ * chains keeping doc.y in sync. Draws "Label: value" on one line at a
+ * known y and advances y by a fixed line height.
+ */
+const drawLabeledLine = (doc, label, value, opts = {}) => {
+  const lineHeight = opts.lineHeight || 14;
+  const y = doc.y;
+  doc
+    .fillColor(COLORS.text)
+    .fontSize(10)
+    .font('Helvetica-Bold')
+    .text(label, PAGE_MARGIN, y, { continued: true, lineBreak: false })
+    .font('Helvetica')
+    .text(value == null || value === '' ? 'N/A' : String(value), { lineBreak: false });
+  doc.x = PAGE_MARGIN;
+  doc.y = y + lineHeight;
+};
+
+/**
+ * FIX: medicine row renderer with fixed row height, explicit y for both
+ * the background rect and the text, and a page-break check per row.
+ */
+const drawMedicineRow = (doc, med, idx) => {
+  const rowHeight = 16;
+  ensureSpace(doc, rowHeight);
+  const y = doc.y;
+
+  doc
+    .rect(50, y, doc.page.width - 100, rowHeight)
+    .fill(idx % 2 === 0 ? '#F8FAFC' : COLORS.white);
+
+  doc
+    .fillColor(COLORS.text)
+    .fontSize(9)
+    .font('Helvetica-Bold')
+    .text(`  ${idx + 1}. ${med.name || 'Unknown'}`, 54, y + 3, {
+      width: 180,
+      lineBreak: false,
+      ellipsis: true,
+    });
+  doc
+    .font('Helvetica')
+    .text(
+      `${med.dosage || ''} | ${med.frequency || ''} | ${med.duration || ''}`,
+      236,
+      y + 3,
+      { width: doc.page.width - 100 - 186, lineBreak: false, ellipsis: true }
+    );
+
+  doc.x = PAGE_MARGIN;
+  doc.y = y + rowHeight + 2;
+};
+
+/**
+ * Draw footer
+ *
+ * FIX: this is called as a side effect of the 'pageAdded' event (see
+ * attachFooterToAllPages below), which fires *during* doc.addPage().
+ * PDFKit tracks doc.x/doc.y as a cursor, and .text() mutates them as
+ * it draws. If we leave the cursor sitting near the bottom margin
+ * after drawing the footer, then return control to whatever was mid-
+ * draw when addPage() was triggered (e.g. a row or section title),
+ * the NEXT thing drawn starts from that low y, instantly overflows
+ * the page again, and pdfkit auto-paginates -> fires 'pageAdded' again
+ * -> drawFooter again -> infinite loop -> "Maximum call stack size
+ * exceeded".
+ *
+ * Fix: snapshot doc.x/doc.y before drawing the footer and restore them
+ * afterward, and bound every footer .text() call with an explicit
+ * height so it can never itself trigger pagination.
+ */
+const drawFooter = (doc) => {
+  const savedX = doc.x;
+  const savedY = doc.y;
+
+  const pageHeight = doc.page.height;
+  doc.rect(0, pageHeight - FOOTER_HEIGHT, doc.page.width, FOOTER_HEIGHT).fill(COLORS.light);
+  doc
+    .fillColor(COLORS.muted)
+    .fontSize(8)
+    .font('Helvetica')
+    .text(
+      `Generated by MedScan | ${new Date().toLocaleDateString('en-IN', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })}`,
+      40,
+      pageHeight - 28,
+      { align: 'left', lineBreak: false, height: 16, width: doc.page.width / 2 - 40 }
+    );
+  doc
+    .fillColor(COLORS.muted)
+    .text('Confidential Medical Record', 40, pageHeight - 28, {
+      align: 'right',
+      width: doc.page.width - 80,
+      lineBreak: false,
+      height: 16,
+    });
+
+  // FIX: restore the cursor so footer drawing never affects subsequent
+  // content placement.
+  doc.x = savedX;
+  doc.y = savedY;
+};
+
+/**
+ * FIX: footer must be drawn on EVERY page, not just once at the end.
+ * pdfkit's addPage() creates new pages; if you only call drawFooter()
+ * once after the loop, only the last page gets a footer. We hook
+ * doc.on('pageAdded', ...) so every page gets one automatically, and
+ * also draw it on the first page.
+ *
+ * IMPORTANT: the handler must not let drawFooter's drawing affect the
+ * cursor (handled above) and must not throw/recurse if called multiple
+ * times for the same page.
+ */
+const attachFooterToAllPages = (doc) => {
+  doc.on('pageAdded', () => {
+    drawFooter(doc);
+  });
+};
+
+/**
+ * GET /api/pdf/patient-history
+ * Generate PDF of patient's scan history (filtered by doctor)
+ */
+const generatePatientHistoryPDF = async (req, res) => {
+  try {
+    const patientId = req.user.id;
+    const { doctor } = req.query;
+
+    let query = `
+      SELECT 
+        sh.id, sh.doctor_name, sh.created_at,
+        p.patient_name, p.diagnosis, p.medicines_json,
+        p.extracted_text, p.notes
+      FROM scan_history sh
+      JOIN prescriptions p ON sh.prescription_id = p.id
+      WHERE sh.patient_id = $1
+    `;
+    const params = [patientId];
+
+    if (doctor) {
+      query += ` AND LOWER(sh.doctor_name) LIKE LOWER($2)`;
+      params.push(`%${doctor}%`);
+    }
+
+    query += ` ORDER BY sh.created_at DESC`;
+
+    const [historyResult, userResult] = await Promise.all([
+      pool.query(query, params),
+      pool.query('SELECT name, email, phone FROM users WHERE id = $1', [patientId]),
+    ]);
+
+    const history = historyResult.rows;
+    const patient = userResult.rows[0];
+
+    const doc = new PDFDocument({ margin: 40, size: 'A4', bufferPages: true });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename=medical_history_${Date.now()}.pdf`
+    );
+    doc.pipe(res);
+    attachFooterToAllPages(doc);
+
+    drawHeader(doc, 'Patient Medical History', doctor ? `Dr. ${doctor}` : 'All Doctors');
+
+    drawSectionTitle(doc, 'Patient Information');
+    drawLabeledLine(doc, 'Name: ', patient?.name);
+    drawLabeledLine(doc, 'Phone: ', patient?.phone);
+    drawLabeledLine(doc, 'Email: ', patient?.email);
+    drawLabeledLine(doc, 'Total Records: ', history.length);
+
+    history.forEach((record, idx) => {
+      const medicines =
+        typeof record.medicines_json === 'string'
+          ? JSON.parse(record.medicines_json)
+          : record.medicines_json || [];
+
+      // FIX: reserve space for the section title bar itself before drawing it
+      ensureSpace(doc, 34);
+
+      drawSectionTitle(
+        doc,
+        `Record ${idx + 1} — ${new Date(record.created_at).toLocaleDateString('en-IN')}`
+      );
+
+      drawLabeledLine(doc, 'Doctor: ', record.doctor_name || 'Unknown');
+      drawLabeledLine(doc, 'Diagnosis: ', record.diagnosis || 'Not specified');
+      drawLabeledLine(doc, 'Notes: ', record.notes || 'None');
+
+      if (medicines.length > 0) {
+        doc.y += 6;
+        ensureSpace(doc, 16);
+        doc
+          .fillColor(COLORS.text)
+          .font('Helvetica-Bold')
+          .fontSize(10)
+          .text('Prescribed Medicines:', PAGE_MARGIN, doc.y, { lineBreak: false });
+        doc.y += 16;
+
+        medicines.forEach((med, mIdx) => drawMedicineRow(doc, med, mIdx));
+      }
+
+      doc.y += 10;
+    });
+
+    if (history.length === 0) {
+      doc.y += 20;
+      doc
+        .fillColor(COLORS.muted)
+        .fontSize(12)
+        .font('Helvetica')
+        .text('No records found.', PAGE_MARGIN, doc.y, {
+          align: 'center',
+          width: doc.page.width - 80,
+        });
+    }
+
+    // FIX: draw footer on the first page too (pageAdded only fires for
+    // pages 2+), then finalize.
+    drawFooter(doc);
+    doc.end();
+  } catch (error) {
+    console.error('Generate patient PDF error:', error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: 'Failed to generate PDF' });
+    }
+  }
+};
+
+/**
+ * GET /api/pdf/doctor-patient/:phone
+ * Generate PDF of a patient's full history (doctor view)
+ */
+const generateDoctorPatientPDF = async (req, res) => {
+  try {
+    const doctorId = req.user.id;
+    const { phone } = req.params;
+
+    const [recordsResult, doctorResult] = await Promise.all([
+      pool.query(
+        `SELECT pr.*, p.medicines_json, p.extracted_text, p.image_path, p.doctor_name as prescribing_doctor
+         FROM patient_records pr
+         LEFT JOIN prescriptions p ON pr.prescription_id = p.id
+         WHERE pr.doctor_id = $1 AND pr.patient_phone = $2
+         ORDER BY pr.visit_date DESC`,
+        [doctorId, phone]
+      ),
+      pool.query('SELECT name, email FROM users WHERE id = $1', [doctorId]),
+    ]);
+
+    const records = recordsResult.rows;
+    const doctor = doctorResult.rows[0];
+    const patientName = records[0]?.patient_name || 'Unknown Patient';
+
+    const doc = new PDFDocument({ margin: 40, size: 'A4', bufferPages: true });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename=patient_${phone}_history.pdf`
+    );
+    doc.pipe(res);
+    attachFooterToAllPages(doc);
+
+    drawHeader(doc, 'Patient Track Record', `Dr. ${doctor?.name || 'Unknown'}`);
+
+    drawSectionTitle(doc, 'Patient Information');
+    drawLabeledLine(doc, 'Patient Name: ', patientName);
+    drawLabeledLine(doc, 'Phone: ', phone);
+    drawLabeledLine(doc, 'Doctor: ', doctor?.name);
+    drawLabeledLine(doc, 'Total Visits: ', records.length);
+
+    records.forEach((record, idx) => {
+      const medicines =
+        typeof record.medicines_json === 'string'
+          ? JSON.parse(record.medicines_json)
+          : record.medicines_json || [];
+
+      ensureSpace(doc, 34);
+
+      drawSectionTitle(
+        doc,
+        `Visit ${idx + 1} — ${new Date(record.visit_date || record.created_at).toLocaleDateString('en-IN')}`
+      );
+
+      drawLabeledLine(doc, 'Diagnosis: ', record.diagnosis || 'Not specified');
+      drawLabeledLine(doc, 'Notes: ', record.notes || 'None');
+
+      if (medicines.length > 0) {
+        doc.y += 6;
+        ensureSpace(doc, 16);
+        doc
+          .fillColor(COLORS.text)
+          .font('Helvetica-Bold')
+          .fontSize(10)
+          .text('Medicines Prescribed:', PAGE_MARGIN, doc.y, { lineBreak: false });
+        doc.y += 16;
+
+        medicines.forEach((med, mIdx) => drawMedicineRow(doc, med, mIdx));
+      }
+
+      doc.y += 10;
+    });
+
+    if (records.length === 0) {
+      doc.y += 20;
+      doc
+        .fillColor(COLORS.muted)
+        .fontSize(12)
+        .font('Helvetica')
+        .text('No records found.', PAGE_MARGIN, doc.y, {
+          align: 'center',
+          width: doc.page.width - 80,
+        });
+    }
+
+    drawFooter(doc);
+    doc.end();
+  } catch (error) {
+    console.error('Generate doctor PDF error:', error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: 'Failed to generate PDF' });
+    }
+  }
+};
+
+/**
+ * GET /api/pdf/chemist-inventory
+ * Generate PDF of chemist's full inventory
+ */
+const generateInventoryPDF = async (req, res) => {
+  try {
+    const chemistId = req.user.id;
+
+    const [inventoryResult, chemistResult] = await Promise.all([
+      pool.query('SELECT * FROM inventory WHERE chemist_id = $1 ORDER BY medicine_name', [chemistId]),
+      pool.query('SELECT name, email, phone FROM users WHERE id = $1', [chemistId]),
+    ]);
+
+    const inventory = inventoryResult.rows;
+    const chemist = chemistResult.rows[0];
+
+    const doc = new PDFDocument({ margin: 40, size: 'A4', bufferPages: true });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename=inventory_${Date.now()}.pdf`
+    );
+    doc.pipe(res);
+    attachFooterToAllPages(doc);
+
+    drawHeader(doc, 'Pharmacy Inventory Report', chemist?.name || 'Chemist');
+
+    drawSectionTitle(doc, 'Pharmacy Information');
+    drawLabeledLine(doc, 'Chemist: ', chemist?.name);
+    drawLabeledLine(doc, 'Phone: ', chemist?.phone);
+    drawLabeledLine(doc, 'Total Items: ', inventory.length);
+    drawLabeledLine(doc, 'Report Date: ', new Date().toLocaleDateString('en-IN'));
+
+    doc.y += 6;
+    drawSectionTitle(doc, 'Inventory List');
+
+    // FIX: single source of truth for column boundaries. Each column's
+    // width is colX[i+1] - colX[i] for everyone — header AND rows — so
+    // they can never drift apart.
+    const colX = [50, 175, 270, 325, 365, 420, 555]; // last entry = right edge
+    const headers = ['Medicine Name', 'Generic', 'Category', 'Qty', 'Price', 'Expiry'];
+    const colWidth = (i) => colX[i + 1] - colX[i] - 6;
+
+    const drawTableHeader = () => {
+      ensureSpace(doc, 20);
+      const y = doc.y;
+      doc.rect(40, y, doc.page.width - 80, 18).fill(COLORS.secondary);
+      doc.fillColor(COLORS.white).fontSize(8).font('Helvetica-Bold');
+      headers.forEach((h, i) => {
+        doc.text(h, colX[i], y + 5, { width: colWidth(i), lineBreak: false });
+      });
+      doc.y = y + 18;
+      doc.x = PAGE_MARGIN;
+    };
+
+    drawTableHeader();
+    doc.fillColor(COLORS.text).font('Helvetica').fontSize(8);
+
+    const rowHeight = 16;
+    inventory.forEach((item, idx) => {
+      // FIX: check space INSIDE the loop, and re-draw the table header
+      // (with the same column layout) on the new page so the table
+      // doesn't silently lose its header / column guide after a break.
+      if (ensureSpace(doc, rowHeight)) {
+        drawTableHeader();
+        doc.fillColor(COLORS.text).font('Helvetica').fontSize(8);
+      }
+
+      const y = doc.y;
+      doc.rect(40, y, doc.page.width - 80, rowHeight).fill(idx % 2 === 0 ? '#F8FAFC' : COLORS.white);
+
+      doc.fillColor(COLORS.text).font('Helvetica').fontSize(8);
+      doc.text(item.medicine_name || '-', colX[0], y + 4, { width: colWidth(0), lineBreak: false, ellipsis: true });
+      doc.text(item.generic_name || '-', colX[1], y + 4, { width: colWidth(1), lineBreak: false, ellipsis: true });
+      doc.text(item.category || '-', colX[2], y + 4, { width: colWidth(2), lineBreak: false, ellipsis: true });
+      doc.text(String(item.quantity ?? 0), colX[3], y + 4, { width: colWidth(3), lineBreak: false });
+      doc.text(item.price ? `Rs.${item.price}` : '-', colX[4], y + 4, { width: colWidth(4), lineBreak: false });
+      doc.text(
+        item.expiry_date ? new Date(item.expiry_date).toLocaleDateString('en-IN') : '-',
+        colX[5],
+        y + 4,
+        { width: colWidth(5), lineBreak: false }
+      );
+
+      doc.y = y + rowHeight;
+      doc.x = PAGE_MARGIN;
+    });
+
+    if (inventory.length === 0) {
+      doc.y += 20;
+      doc
+        .fillColor(COLORS.muted)
+        .fontSize(12)
+        .font('Helvetica')
+        .text('No inventory items found.', PAGE_MARGIN, doc.y, {
+          align: 'center',
+          width: doc.page.width - 80,
+        });
+    }
+
+    drawFooter(doc);
+    doc.end();
+  } catch (error) {
+    console.error('Generate inventory PDF error:', error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: 'Failed to generate PDF' });
+    }
+  }
+};
+
+module.exports = {
+  generatePatientHistoryPDF,
+  generateDoctorPatientPDF,
+  generateInventoryPDF,
+};

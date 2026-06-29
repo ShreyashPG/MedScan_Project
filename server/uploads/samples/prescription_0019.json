@@ -1,0 +1,11 @@
+{
+  "id": 19,
+  "filename": "prescription_0019.png",
+  "original_filename": "prescription_00022.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 789 Pine Rd. patient_name: Michael Brown patient_age: 73 date: 2024-12-16 medications: - Ibuprofen 10 mg - As needed for pain - Losartan 25 mg - With food - Amoxicillin 10 mg - Take once daily signature: Dr. F. Gomez </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 789 Pine Rd. patient_name: Michael Brown patient_age: 73 date: 2024-12-16 medications: - Ibuprofen 10 mg - As needed for pain - Losartan 25 mg - With food - Amoxicillin 10 mg - Take once daily signature: Dr. F. Gomez </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00022.png"
+}

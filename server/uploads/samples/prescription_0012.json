@@ -1,0 +1,11 @@
+{
+  "id": 12,
+  "filename": "prescription_0012.png",
+  "original_filename": "prescription_00015.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Meadowview Health clinic_address: 789 Pine Rd. patient_name: Michael Brown patient_age: 70 date: 2024-12-16 medications: - Ciprofloxacin 50 mg - Every 12 hours signature: Dr. R. Patel </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Meadowview Health clinic_address: 789 Pine Rd. patient_name: Michael Brown patient_age: 70 date: 2024-12-16 medications: - Ciprofloxacin 50 mg - Every 12 hours signature: Dr. R. Patel </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00015.png"
+}

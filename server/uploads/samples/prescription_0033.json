@@ -1,0 +1,11 @@
+{
+  "id": 33,
+  "filename": "prescription_0033.png",
+  "original_filename": "prescription_00040.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Meadowview Health clinic_address: 234 Maple Blvd. patient_name: John Doe patient_age: 22 date: 2024-12-16 medications: - Omeprazole 250 mg - As needed for pain - Levothyroxine 250 mg - As directed signature: Dr. R. Patel </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Meadowview Health clinic_address: 234 Maple Blvd. patient_name: John Doe patient_age: 22 date: 2024-12-16 medications: - Omeprazole 250 mg - As needed for pain - Levothyroxine 250 mg - As directed signature: Dr. R. Patel </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00040.png"
+}

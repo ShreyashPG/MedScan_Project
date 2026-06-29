@@ -1,0 +1,11 @@
+{
+  "id": 21,
+  "filename": "prescription_0021.png",
+  "original_filename": "prescription_00024.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 234 Maple Blvd. patient_name: Elena Petrova patient_age: 36 date: 2024-12-16 medications: - Lisinopril 100 mg - As needed for pain - Gabapentin 50 mg - Take once daily - Ibuprofen 20 mg - With food signature: Dr. A. Smith </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 234 Maple Blvd. patient_name: Elena Petrova patient_age: 36 date: 2024-12-16 medications: - Lisinopril 100 mg - As needed for pain - Gabapentin 50 mg - Take once daily - Ibuprofen 20 mg - With food signature: Dr. A. Smith </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00024.png"
+}

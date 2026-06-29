@@ -1,0 +1,11 @@
+{
+  "id": 13,
+  "filename": "prescription_0013.png",
+  "original_filename": "prescription_00016.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Riverside Clinic clinic_address: 45 Oak Ave. patient_name: Maria Garcia patient_age: 35 date: 2024-12-16 medications: - Atorvastatin 100 mg - As needed for pain - Levothyroxine 10 mg - With food - Metformin 10 mg - Every 8 hours - Acetaminophen 250 mg - With food signature: Dr. A. Smith </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Riverside Clinic clinic_address: 45 Oak Ave. patient_name: Maria Garcia patient_age: 35 date: 2024-12-16 medications: - Atorvastatin 100 mg - As needed for pain - Levothyroxine 10 mg - With food - Metformin 10 mg - Every 8 hours - Acetaminophen 250 mg - With food signature: Dr. A. Smith </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00016.png"
+}

@@ -1,0 +1,11 @@
+{
+  "id": 4,
+  "filename": "prescription_0004.png",
+  "original_filename": "prescription_00005.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Riverside Clinic clinic_address: 45 Oak Ave. patient_name: Jane Smith patient_age: 24 date: 2024-12-16 medications: - Simvastatin 5 mg - Every 8 hours - Omeprazole 100 mg - Take twice daily - Hydrochlorothiazide 25 mg - Every 12 hours - Amlodipine 25 mg - Before meals signature: Dr. A. Smith </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Riverside Clinic clinic_address: 45 Oak Ave. patient_name: Jane Smith patient_age: 24 date: 2024-12-16 medications: - Simvastatin 5 mg - Every 8 hours - Omeprazole 100 mg - Take twice daily - Hydrochlorothiazide 25 mg - Every 12 hours - Amlodipine 25 mg - Before meals signature: Dr. A. Smith </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00005.png"
+}

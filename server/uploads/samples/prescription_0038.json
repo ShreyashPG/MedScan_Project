@@ -1,0 +1,11 @@
+{
+  "id": 38,
+  "filename": "prescription_0038.png",
+  "original_filename": "prescription_00047.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Riverside Clinic clinic_address: 678 Orchard Ln. patient_name: Maria Garcia patient_age: 44 date: 2024-12-16 medications: - Metformin 500 mg - Take once daily - Amoxicillin 250 mg - Take twice daily signature: Dr. H. Johnson </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Riverside Clinic clinic_address: 678 Orchard Ln. patient_name: Maria Garcia patient_age: 44 date: 2024-12-16 medications: - Metformin 500 mg - Take once daily - Amoxicillin 250 mg - Take twice daily signature: Dr. H. Johnson </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00047.png"
+}

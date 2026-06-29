@@ -1,0 +1,11 @@
+{
+  "id": 24,
+  "filename": "prescription_0024.png",
+  "original_filename": "prescription_00029.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Aisha Khan patient_age: 62 date: 2024-12-16 medications: - Omeprazole 500 mg - After meals signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Aisha Khan patient_age: 62 date: 2024-12-16 medications: - Omeprazole 500 mg - After meals signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00029.png"
+}

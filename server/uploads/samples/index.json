@@ -1,0 +1,447 @@
+{
+  "total": 40,
+  "split": "train",
+  "source": "huggingface.co/datasets/chinmays18/medical-prescription-dataset",
+  "samples": [
+    {
+      "id": 0,
+      "filename": "prescription_0000.png",
+      "original_filename": "prescription_00000.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: Michael Brown patient_age: 51 date: 2024-12-16 medications: - Ibuprofen 5 mg - Take twice daily - Ciprofloxacin 25 mg - At bedtime - Metformin 100 mg - Every 12 hours signature: Dr. F. Gomez </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: Michael Brown patient_age: 51 date: 2024-12-16 medications: - Ibuprofen 5 mg - Take twice daily - Ciprofloxacin 25 mg - At bedtime - Metformin 100 mg - Every 12 hours signature: Dr. F. Gomez </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00000.png"
+    },
+    {
+      "id": 1,
+      "filename": "prescription_0001.png",
+      "original_filename": "prescription_00001.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Meadowview Health clinic_address: 123 Main St. patient_name: Carlos Chavez patient_age: 36 date: 2024-12-16 medications: - Gabapentin 500 mg - Before meals - Prednisone 50 mg - At bedtime - Acetaminophen 100 mg - At bedtime signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Meadowview Health clinic_address: 123 Main St. patient_name: Carlos Chavez patient_age: 36 date: 2024-12-16 medications: - Gabapentin 500 mg - Before meals - Prednisone 50 mg - At bedtime - Acetaminophen 100 mg - At bedtime signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00001.png"
+    },
+    {
+      "id": 2,
+      "filename": "prescription_0002.png",
+      "original_filename": "prescription_00002.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 234 Maple Blvd. patient_name: Aisha Khan patient_age: 65 date: 2024-12-16 medications: - Prednisone 500 mg - Every 12 hours - Ciprofloxacin 5 mg - As directed - Simvastatin 10 mg - Every 12 hours - Omeprazole 20 mg - Take twice daily signature: Dr. F. Gomez </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 234 Maple Blvd. patient_name: Aisha Khan patient_age: 65 date: 2024-12-16 medications: - Prednisone 500 mg - Every 12 hours - Ciprofloxacin 5 mg - As directed - Simvastatin 10 mg - Every 12 hours - Omeprazole 20 mg - Take twice daily signature: Dr. F. Gomez </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00002.png"
+    },
+    {
+      "id": 3,
+      "filename": "prescription_0003.png",
+      "original_filename": "prescription_00004.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 234 Maple Blvd. patient_name: Hiro Tanaka patient_age: 42 date: 2024-12-16 medications: - Amlodipine 25 mg - With food - Amoxicillin 5 mg - Before meals - Lisinopril 10 mg - Every 12 hours signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 234 Maple Blvd. patient_name: Hiro Tanaka patient_age: 42 date: 2024-12-16 medications: - Amlodipine 25 mg - With food - Amoxicillin 5 mg - Before meals - Lisinopril 10 mg - Every 12 hours signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00004.png"
+    },
+    {
+      "id": 4,
+      "filename": "prescription_0004.png",
+      "original_filename": "prescription_00005.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Riverside Clinic clinic_address: 45 Oak Ave. patient_name: Jane Smith patient_age: 24 date: 2024-12-16 medications: - Simvastatin 5 mg - Every 8 hours - Omeprazole 100 mg - Take twice daily - Hydrochlorothiazide 25 mg - Every 12 hours - Amlodipine 25 mg - Before meals signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Riverside Clinic clinic_address: 45 Oak Ave. patient_name: Jane Smith patient_age: 24 date: 2024-12-16 medications: - Simvastatin 5 mg - Every 8 hours - Omeprazole 100 mg - Take twice daily - Hydrochlorothiazide 25 mg - Every 12 hours - Amlodipine 25 mg - Before meals signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00005.png"
+    },
+    {
+      "id": 5,
+      "filename": "prescription_0005.png",
+      "original_filename": "prescription_00007.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Greenwood Medical Center clinic_address: 789 Pine Rd. patient_name: Jane Smith patient_age: 64 date: 2024-12-16 medications: - Prednisone 100 mg - As directed signature: Dr. H. Johnson </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Greenwood Medical Center clinic_address: 789 Pine Rd. patient_name: Jane Smith patient_age: 64 date: 2024-12-16 medications: - Prednisone 100 mg - As directed signature: Dr. H. Johnson </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00007.png"
+    },
+    {
+      "id": 6,
+      "filename": "prescription_0006.png",
+      "original_filename": "prescription_00008.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Riverside Clinic clinic_address: 123 Main St. patient_name: Michael Brown patient_age: 54 date: 2024-12-16 medications: - Hydrochlorothiazide 250 mg - Every 12 hours - Acetaminophen 5 mg - Before meals - Amoxicillin 500 mg - Every 8 hours signature: Dr. H. Johnson </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Riverside Clinic clinic_address: 123 Main St. patient_name: Michael Brown patient_age: 54 date: 2024-12-16 medications: - Hydrochlorothiazide 250 mg - Every 12 hours - Acetaminophen 5 mg - Before meals - Amoxicillin 500 mg - Every 8 hours signature: Dr. H. Johnson </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00008.png"
+    },
+    {
+      "id": 7,
+      "filename": "prescription_0007.png",
+      "original_filename": "prescription_00009.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 45 Oak Ave. patient_name: Fatima Ali patient_age: 78 date: 2024-12-16 medications: - Amlodipine 5 mg - With food signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 45 Oak Ave. patient_name: Fatima Ali patient_age: 78 date: 2024-12-16 medications: - Amlodipine 5 mg - With food signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00009.png"
+    },
+    {
+      "id": 8,
+      "filename": "prescription_0008.png",
+      "original_filename": "prescription_00010.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Oakview Hospital clinic_address: 123 Main St. patient_name: Jane Smith patient_age: 77 date: 2024-12-16 medications: - Gabapentin 500 mg - After meals signature: Dr. H. Johnson </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Oakview Hospital clinic_address: 123 Main St. patient_name: Jane Smith patient_age: 77 date: 2024-12-16 medications: - Gabapentin 500 mg - After meals signature: Dr. H. Johnson </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00010.png"
+    },
+    {
+      "id": 9,
+      "filename": "prescription_0009.png",
+      "original_filename": "prescription_00012.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Carlos Chavez patient_age: 40 date: 2024-12-16 medications: - Omeprazole 25 mg - With food - Amoxicillin 250 mg - Every 8 hours - Metformin 100 mg - After meals - Ibuprofen 25 mg - Before meals signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Carlos Chavez patient_age: 40 date: 2024-12-16 medications: - Omeprazole 25 mg - With food - Amoxicillin 250 mg - Every 8 hours - Metformin 100 mg - After meals - Ibuprofen 25 mg - Before meals signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00012.png"
+    },
+    {
+      "id": 10,
+      "filename": "prescription_0010.png",
+      "original_filename": "prescription_00013.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 45 date: 2024-12-16 medications: - Simvastatin 25 mg - As needed for pain - Metformin 5 mg - At bedtime - Gabapentin 25 mg - Take once daily signature: Dr. F. Gomez </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 45 date: 2024-12-16 medications: - Simvastatin 25 mg - As needed for pain - Metformin 5 mg - At bedtime - Gabapentin 25 mg - Take once daily signature: Dr. F. Gomez </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00013.png"
+    },
+    {
+      "id": 11,
+      "filename": "prescription_0011.png",
+      "original_filename": "prescription_00014.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: City Health Clinic clinic_address: 678 Orchard Ln. patient_name: Wei Li patient_age: 24 date: 2024-12-16 medications: - Metformin 25 mg - Before meals signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: City Health Clinic clinic_address: 678 Orchard Ln. patient_name: Wei Li patient_age: 24 date: 2024-12-16 medications: - Metformin 25 mg - Before meals signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00014.png"
+    },
+    {
+      "id": 12,
+      "filename": "prescription_0012.png",
+      "original_filename": "prescription_00015.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Meadowview Health clinic_address: 789 Pine Rd. patient_name: Michael Brown patient_age: 70 date: 2024-12-16 medications: - Ciprofloxacin 50 mg - Every 12 hours signature: Dr. R. Patel </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Meadowview Health clinic_address: 789 Pine Rd. patient_name: Michael Brown patient_age: 70 date: 2024-12-16 medications: - Ciprofloxacin 50 mg - Every 12 hours signature: Dr. R. Patel </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00015.png"
+    },
+    {
+      "id": 13,
+      "filename": "prescription_0013.png",
+      "original_filename": "prescription_00016.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Riverside Clinic clinic_address: 45 Oak Ave. patient_name: Maria Garcia patient_age: 35 date: 2024-12-16 medications: - Atorvastatin 100 mg - As needed for pain - Levothyroxine 10 mg - With food - Metformin 10 mg - Every 8 hours - Acetaminophen 250 mg - With food signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Riverside Clinic clinic_address: 45 Oak Ave. patient_name: Maria Garcia patient_age: 35 date: 2024-12-16 medications: - Atorvastatin 100 mg - As needed for pain - Levothyroxine 10 mg - With food - Metformin 10 mg - Every 8 hours - Acetaminophen 250 mg - With food signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00016.png"
+    },
+    {
+      "id": 14,
+      "filename": "prescription_0014.png",
+      "original_filename": "prescription_00017.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Aisha Khan patient_age: 60 date: 2024-12-16 medications: - Levothyroxine 10 mg - Every 12 hours signature: Dr. F. Gomez </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Aisha Khan patient_age: 60 date: 2024-12-16 medications: - Levothyroxine 10 mg - Every 12 hours signature: Dr. F. Gomez </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00017.png"
+    },
+    {
+      "id": 15,
+      "filename": "prescription_0015.png",
+      "original_filename": "prescription_00018.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: John Doe patient_age: 60 date: 2024-12-16 medications: - Simvastatin 20 mg - Every 12 hours - Losartan 500 mg - Take once daily signature: Dr. F. Gomez </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: John Doe patient_age: 60 date: 2024-12-16 medications: - Simvastatin 20 mg - Every 12 hours - Losartan 500 mg - Take once daily signature: Dr. F. Gomez </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00018.png"
+    },
+    {
+      "id": 16,
+      "filename": "prescription_0016.png",
+      "original_filename": "prescription_00019.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 45 Oak Ave. patient_name: Jane Smith patient_age: 37 date: 2024-12-16 medications: - Gabapentin 10 mg - Every 8 hours - Acetaminophen 500 mg - Take once daily signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 45 Oak Ave. patient_name: Jane Smith patient_age: 37 date: 2024-12-16 medications: - Gabapentin 10 mg - Every 8 hours - Acetaminophen 500 mg - Take once daily signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00019.png"
+    },
+    {
+      "id": 17,
+      "filename": "prescription_0017.png",
+      "original_filename": "prescription_00020.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 80 date: 2024-12-16 medications: - Losartan 500 mg - Take once daily signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 80 date: 2024-12-16 medications: - Losartan 500 mg - Take once daily signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00020.png"
+    },
+    {
+      "id": 18,
+      "filename": "prescription_0018.png",
+      "original_filename": "prescription_00021.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 789 Pine Rd. patient_name: Jane Smith patient_age: 32 date: 2024-12-16 medications: - Losartan 100 mg - Every 8 hours - Ciprofloxacin 10 mg - At bedtime - Amlodipine 20 mg - As needed for pain - Metformin 250 mg - Before meals signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 789 Pine Rd. patient_name: Jane Smith patient_age: 32 date: 2024-12-16 medications: - Losartan 100 mg - Every 8 hours - Ciprofloxacin 10 mg - At bedtime - Amlodipine 20 mg - As needed for pain - Metformin 250 mg - Before meals signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00021.png"
+    },
+    {
+      "id": 19,
+      "filename": "prescription_0019.png",
+      "original_filename": "prescription_00022.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 789 Pine Rd. patient_name: Michael Brown patient_age: 73 date: 2024-12-16 medications: - Ibuprofen 10 mg - As needed for pain - Losartan 25 mg - With food - Amoxicillin 10 mg - Take once daily signature: Dr. F. Gomez </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 789 Pine Rd. patient_name: Michael Brown patient_age: 73 date: 2024-12-16 medications: - Ibuprofen 10 mg - As needed for pain - Losartan 25 mg - With food - Amoxicillin 10 mg - Take once daily signature: Dr. F. Gomez </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00022.png"
+    },
+    {
+      "id": 20,
+      "filename": "prescription_0020.png",
+      "original_filename": "prescription_00023.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 31 date: 2024-12-16 medications: - Atorvastatin 500 mg - Every 12 hours - Amlodipine 20 mg - After meals - Gabapentin 10 mg - Before meals - Lisinopril 20 mg - Every 8 hours signature: Dr. C. Rossi </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 31 date: 2024-12-16 medications: - Atorvastatin 500 mg - Every 12 hours - Amlodipine 20 mg - After meals - Gabapentin 10 mg - Before meals - Lisinopril 20 mg - Every 8 hours signature: Dr. C. Rossi </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00023.png"
+    },
+    {
+      "id": 21,
+      "filename": "prescription_0021.png",
+      "original_filename": "prescription_00024.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 234 Maple Blvd. patient_name: Elena Petrova patient_age: 36 date: 2024-12-16 medications: - Lisinopril 100 mg - As needed for pain - Gabapentin 50 mg - Take once daily - Ibuprofen 20 mg - With food signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 234 Maple Blvd. patient_name: Elena Petrova patient_age: 36 date: 2024-12-16 medications: - Lisinopril 100 mg - As needed for pain - Gabapentin 50 mg - Take once daily - Ibuprofen 20 mg - With food signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00024.png"
+    },
+    {
+      "id": 22,
+      "filename": "prescription_0022.png",
+      "original_filename": "prescription_00026.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Riverside Clinic clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 67 date: 2024-12-16 medications: - Amoxicillin 500 mg - With food - Prednisone 25 mg - After meals signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Riverside Clinic clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 67 date: 2024-12-16 medications: - Amoxicillin 500 mg - With food - Prednisone 25 mg - After meals signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00026.png"
+    },
+    {
+      "id": 23,
+      "filename": "prescription_0023.png",
+      "original_filename": "prescription_00028.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 71 date: 2024-12-16 medications: - Amlodipine 100 mg - With food - Hydrochlorothiazide 5 mg - As needed for pain - Lisinopril 50 mg - Take once daily signature: Dr. F. Gomez </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Greenwood Medical Center clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 71 date: 2024-12-16 medications: - Amlodipine 100 mg - With food - Hydrochlorothiazide 5 mg - As needed for pain - Lisinopril 50 mg - Take once daily signature: Dr. F. Gomez </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00028.png"
+    },
+    {
+      "id": 24,
+      "filename": "prescription_0024.png",
+      "original_filename": "prescription_00029.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Aisha Khan patient_age: 62 date: 2024-12-16 medications: - Omeprazole 500 mg - After meals signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Aisha Khan patient_age: 62 date: 2024-12-16 medications: - Omeprazole 500 mg - After meals signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00029.png"
+    },
+    {
+      "id": 25,
+      "filename": "prescription_0025.png",
+      "original_filename": "prescription_00031.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Riverside Clinic clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 45 date: 2024-12-16 medications: - Acetaminophen 50 mg - As needed for pain - Amoxicillin 25 mg - Take once daily signature: Dr. R. Patel </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Riverside Clinic clinic_address: 234 Maple Blvd. patient_name: Fatima Ali patient_age: 45 date: 2024-12-16 medications: - Acetaminophen 50 mg - As needed for pain - Amoxicillin 25 mg - Take once daily signature: Dr. R. Patel </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00031.png"
+    },
+    {
+      "id": 26,
+      "filename": "prescription_0026.png",
+      "original_filename": "prescription_00033.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: John Doe patient_age: 35 date: 2024-12-16 medications: - Hydrochlorothiazide 25 mg - Before meals signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: John Doe patient_age: 35 date: 2024-12-16 medications: - Hydrochlorothiazide 25 mg - Before meals signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00033.png"
+    },
+    {
+      "id": 27,
+      "filename": "prescription_0027.png",
+      "original_filename": "prescription_00034.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: City Health Clinic clinic_address: 678 Orchard Ln. patient_name: Aisha Khan patient_age: 61 date: 2024-12-16 medications: - Amlodipine 20 mg - Every 12 hours signature: Dr. C. Rossi </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: City Health Clinic clinic_address: 678 Orchard Ln. patient_name: Aisha Khan patient_age: 61 date: 2024-12-16 medications: - Amlodipine 20 mg - Every 12 hours signature: Dr. C. Rossi </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00034.png"
+    },
+    {
+      "id": 28,
+      "filename": "prescription_0028.png",
+      "original_filename": "prescription_00035.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 45 Oak Ave. patient_name: Hiro Tanaka patient_age: 51 date: 2024-12-16 medications: - Losartan 5 mg - As needed for pain signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 45 Oak Ave. patient_name: Hiro Tanaka patient_age: 51 date: 2024-12-16 medications: - Losartan 5 mg - As needed for pain signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00035.png"
+    },
+    {
+      "id": 29,
+      "filename": "prescription_0029.png",
+      "original_filename": "prescription_00036.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: City Health Clinic clinic_address: 789 Pine Rd. patient_name: Maria Garcia patient_age: 61 date: 2024-12-16 medications: - Gabapentin 250 mg - Every 12 hours - Losartan 100 mg - Before meals - Hydrochlorothiazide 50 mg - As directed signature: Dr. C. Rossi </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: City Health Clinic clinic_address: 789 Pine Rd. patient_name: Maria Garcia patient_age: 61 date: 2024-12-16 medications: - Gabapentin 250 mg - Every 12 hours - Losartan 100 mg - Before meals - Hydrochlorothiazide 50 mg - As directed signature: Dr. C. Rossi </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00036.png"
+    },
+    {
+      "id": 30,
+      "filename": "prescription_0030.png",
+      "original_filename": "prescription_00037.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 123 Main St. patient_name: Elena Petrova patient_age: 45 date: 2024-12-16 medications: - Losartan 25 mg - At bedtime signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 123 Main St. patient_name: Elena Petrova patient_age: 45 date: 2024-12-16 medications: - Losartan 25 mg - At bedtime signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00037.png"
+    },
+    {
+      "id": 31,
+      "filename": "prescription_0031.png",
+      "original_filename": "prescription_00038.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Wei Li patient_age: 34 date: 2024-12-16 medications: - Omeprazole 10 mg - Every 8 hours - Hydrochlorothiazide 500 mg - Take twice daily signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Wei Li patient_age: 34 date: 2024-12-16 medications: - Omeprazole 10 mg - Every 8 hours - Hydrochlorothiazide 500 mg - Take twice daily signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00038.png"
+    },
+    {
+      "id": 32,
+      "filename": "prescription_0032.png",
+      "original_filename": "prescription_00039.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 45 Oak Ave. patient_name: Elena Petrova patient_age: 45 date: 2024-12-16 medications: - Lisinopril 100 mg - With food signature: Dr. A. Smith </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: City Health Clinic clinic_address: 45 Oak Ave. patient_name: Elena Petrova patient_age: 45 date: 2024-12-16 medications: - Lisinopril 100 mg - With food signature: Dr. A. Smith </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00039.png"
+    },
+    {
+      "id": 33,
+      "filename": "prescription_0033.png",
+      "original_filename": "prescription_00040.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Meadowview Health clinic_address: 234 Maple Blvd. patient_name: John Doe patient_age: 22 date: 2024-12-16 medications: - Omeprazole 250 mg - As needed for pain - Levothyroxine 250 mg - As directed signature: Dr. R. Patel </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Meadowview Health clinic_address: 234 Maple Blvd. patient_name: John Doe patient_age: 22 date: 2024-12-16 medications: - Omeprazole 250 mg - As needed for pain - Levothyroxine 250 mg - As directed signature: Dr. R. Patel </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00040.png"
+    },
+    {
+      "id": 34,
+      "filename": "prescription_0034.png",
+      "original_filename": "prescription_00041.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: Riverside Clinic clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 49 date: 2024-12-16 medications: - Ciprofloxacin 20 mg - Before meals signature: Dr. C. Rossi </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: Riverside Clinic clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 49 date: 2024-12-16 medications: - Ciprofloxacin 20 mg - Before meals signature: Dr. C. Rossi </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00041.png"
+    },
+    {
+      "id": 35,
+      "filename": "prescription_0035.png",
+      "original_filename": "prescription_00042.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Elena Petrova patient_age: 41 date: 2024-12-16 medications: - Ciprofloxacin 50 mg - As needed for pain - Lisinopril 5 mg - Every 8 hours signature: Dr. R. Patel </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Elena Petrova patient_age: 41 date: 2024-12-16 medications: - Ciprofloxacin 50 mg - As needed for pain - Lisinopril 5 mg - Every 8 hours signature: Dr. R. Patel </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00042.png"
+    },
+    {
+      "id": 36,
+      "filename": "prescription_0036.png",
+      "original_filename": "prescription_00043.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Elena Petrova patient_age: 44 date: 2024-12-16 medications: - Ciprofloxacin 5 mg - Take twice daily - Acetaminophen 25 mg - With food - Amoxicillin 250 mg - As needed for pain signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Elena Petrova patient_age: 44 date: 2024-12-16 medications: - Ciprofloxacin 5 mg - Take twice daily - Acetaminophen 25 mg - With food - Amoxicillin 250 mg - As needed for pain signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00043.png"
+    },
+    {
+      "id": 37,
+      "filename": "prescription_0037.png",
+      "original_filename": "prescription_00045.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: City Health Clinic clinic_address: 234 Maple Blvd. patient_name: Wei Li patient_age: 24 date: 2024-12-16 medications: - Metformin 10 mg - With food - Ibuprofen 20 mg - After meals - Atorvastatin 50 mg - At bedtime signature: Dr. H. Johnson </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: City Health Clinic clinic_address: 234 Maple Blvd. patient_name: Wei Li patient_age: 24 date: 2024-12-16 medications: - Metformin 10 mg - With food - Ibuprofen 20 mg - After meals - Atorvastatin 50 mg - At bedtime signature: Dr. H. Johnson </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00045.png"
+    },
+    {
+      "id": 38,
+      "filename": "prescription_0038.png",
+      "original_filename": "prescription_00047.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Riverside Clinic clinic_address: 678 Orchard Ln. patient_name: Maria Garcia patient_age: 44 date: 2024-12-16 medications: - Metformin 500 mg - Take once daily - Amoxicillin 250 mg - Take twice daily signature: Dr. H. Johnson </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Riverside Clinic clinic_address: 678 Orchard Ln. patient_name: Maria Garcia patient_age: 44 date: 2024-12-16 medications: - Metformin 500 mg - Take once daily - Amoxicillin 250 mg - Take twice daily signature: Dr. H. Johnson </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00047.png"
+    },
+    {
+      "id": 39,
+      "filename": "prescription_0039.png",
+      "original_filename": "prescription_00049.png",
+      "ground_truth": {
+        "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: Wei Li patient_age: 33 date: 2024-12-16 medications: - Losartan 250 mg - Every 12 hours signature: Dr. M. Lee </s>"
+      },
+      "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: Wei Li patient_age: 33 date: 2024-12-16 medications: - Losartan 250 mg - Every 12 hours signature: Dr. M. Lee </s>",
+      "split": "train",
+      "source_path": "train/images/prescription_00049.png"
+    }
+  ]
+}

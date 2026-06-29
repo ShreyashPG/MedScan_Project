@@ -1,0 +1,11 @@
+{
+  "id": 9,
+  "filename": "prescription_0009.png",
+  "original_filename": "prescription_00012.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Carlos Chavez patient_age: 40 date: 2024-12-16 medications: - Omeprazole 25 mg - With food - Amoxicillin 250 mg - Every 8 hours - Metformin 100 mg - After meals - Ibuprofen 25 mg - Before meals signature: Dr. A. Smith </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. A. Smith clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Carlos Chavez patient_age: 40 date: 2024-12-16 medications: - Omeprazole 25 mg - With food - Amoxicillin 250 mg - Every 8 hours - Metformin 100 mg - After meals - Ibuprofen 25 mg - Before meals signature: Dr. A. Smith </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00012.png"
+}

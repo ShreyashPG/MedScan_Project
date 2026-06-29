@@ -1,0 +1,11 @@
+{
+  "id": 11,
+  "filename": "prescription_0011.png",
+  "original_filename": "prescription_00014.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: City Health Clinic clinic_address: 678 Orchard Ln. patient_name: Wei Li patient_age: 24 date: 2024-12-16 medications: - Metformin 25 mg - Before meals signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: City Health Clinic clinic_address: 678 Orchard Ln. patient_name: Wei Li patient_age: 24 date: 2024-12-16 medications: - Metformin 25 mg - Before meals signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00014.png"
+}

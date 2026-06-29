@@ -1,0 +1,11 @@
+{
+  "id": 17,
+  "filename": "prescription_0017.png",
+  "original_filename": "prescription_00020.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 80 date: 2024-12-16 medications: - Losartan 500 mg - Take once daily signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 80 date: 2024-12-16 medications: - Losartan 500 mg - Take once daily signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00020.png"
+}

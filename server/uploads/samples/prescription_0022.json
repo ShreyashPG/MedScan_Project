@@ -1,0 +1,11 @@
+{
+  "id": 22,
+  "filename": "prescription_0022.png",
+  "original_filename": "prescription_00026.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Riverside Clinic clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 67 date: 2024-12-16 medications: - Amoxicillin 500 mg - With food - Prednisone 25 mg - After meals signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Riverside Clinic clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 67 date: 2024-12-16 medications: - Amoxicillin 500 mg - With food - Prednisone 25 mg - After meals signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00026.png"
+}

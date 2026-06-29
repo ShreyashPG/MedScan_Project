@@ -1,0 +1,11 @@
+{
+  "id": 28,
+  "filename": "prescription_0028.png",
+  "original_filename": "prescription_00035.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 45 Oak Ave. patient_name: Hiro Tanaka patient_age: 51 date: 2024-12-16 medications: - Losartan 5 mg - As needed for pain signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Oakview Hospital clinic_address: 45 Oak Ave. patient_name: Hiro Tanaka patient_age: 51 date: 2024-12-16 medications: - Losartan 5 mg - As needed for pain signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00035.png"
+}

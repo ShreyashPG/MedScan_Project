@@ -1,0 +1,11 @@
+{
+  "id": 35,
+  "filename": "prescription_0035.png",
+  "original_filename": "prescription_00042.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Elena Petrova patient_age: 41 date: 2024-12-16 medications: - Ciprofloxacin 50 mg - As needed for pain - Lisinopril 5 mg - Every 8 hours signature: Dr. R. Patel </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. R. Patel clinic_name: Oakview Hospital clinic_address: 234 Maple Blvd. patient_name: Elena Petrova patient_age: 41 date: 2024-12-16 medications: - Ciprofloxacin 50 mg - As needed for pain - Lisinopril 5 mg - Every 8 hours signature: Dr. R. Patel </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00042.png"
+}

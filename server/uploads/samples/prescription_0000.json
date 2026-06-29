@@ -1,0 +1,11 @@
+{
+  "id": 0,
+  "filename": "prescription_0000.png",
+  "original_filename": "prescription_00000.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: Michael Brown patient_age: 51 date: 2024-12-16 medications: - Ibuprofen 5 mg - Take twice daily - Ciprofloxacin 25 mg - At bedtime - Metformin 100 mg - Every 12 hours signature: Dr. F. Gomez </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. F. Gomez clinic_name: Meadowview Health clinic_address: 45 Oak Ave. patient_name: Michael Brown patient_age: 51 date: 2024-12-16 medications: - Ibuprofen 5 mg - Take twice daily - Ciprofloxacin 25 mg - At bedtime - Metformin 100 mg - Every 12 hours signature: Dr. F. Gomez </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00000.png"
+}

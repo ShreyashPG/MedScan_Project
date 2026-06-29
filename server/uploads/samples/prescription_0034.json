@@ -1,0 +1,11 @@
+{
+  "id": 34,
+  "filename": "prescription_0034.png",
+  "original_filename": "prescription_00041.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: Riverside Clinic clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 49 date: 2024-12-16 medications: - Ciprofloxacin 20 mg - Before meals signature: Dr. C. Rossi </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. C. Rossi clinic_name: Riverside Clinic clinic_address: 789 Pine Rd. patient_name: Elena Petrova patient_age: 49 date: 2024-12-16 medications: - Ciprofloxacin 20 mg - Before meals signature: Dr. C. Rossi </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00041.png"
+}

@@ -1,0 +1,11 @@
+{
+  "id": 8,
+  "filename": "prescription_0008.png",
+  "original_filename": "prescription_00010.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Oakview Hospital clinic_address: 123 Main St. patient_name: Jane Smith patient_age: 77 date: 2024-12-16 medications: - Gabapentin 500 mg - After meals signature: Dr. H. Johnson </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. H. Johnson clinic_name: Oakview Hospital clinic_address: 123 Main St. patient_name: Jane Smith patient_age: 77 date: 2024-12-16 medications: - Gabapentin 500 mg - After meals signature: Dr. H. Johnson </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00010.png"
+}

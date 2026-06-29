@@ -1,0 +1,11 @@
+{
+  "id": 36,
+  "filename": "prescription_0036.png",
+  "original_filename": "prescription_00043.png",
+  "ground_truth": {
+    "raw_text": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Elena Petrova patient_age: 44 date: 2024-12-16 medications: - Ciprofloxacin 5 mg - Take twice daily - Acetaminophen 25 mg - With food - Amoxicillin 250 mg - As needed for pain signature: Dr. M. Lee </s>"
+  },
+  "raw_ground_truth": "<s_ocr> doctor_name: Dr. M. Lee clinic_name: Greenwood Medical Center clinic_address: 45 Oak Ave. patient_name: Elena Petrova patient_age: 44 date: 2024-12-16 medications: - Ciprofloxacin 5 mg - Take twice daily - Acetaminophen 25 mg - With food - Amoxicillin 250 mg - As needed for pain signature: Dr. M. Lee </s>",
+  "split": "train",
+  "source_path": "train/images/prescription_00043.png"
+}
